@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom"
 import styled from "styled-components"
 import Logo from '../../assets/images/logo.png'
 import SearchInput from "../input/SearchInput"
@@ -5,11 +6,19 @@ import icProfile from '../../assets/icons/profile.svg'
 import icBurgerSimple from '../../assets/icons/burger-simple.svg'
 import theme from "../../style/theme"
 
+
+
 const Header = () => {
+  const navigate = useNavigate();
+
   return (
     <Wrapper>
       <LogoArea>
-        <img src={Logo} alt='로고 이미지' />
+        <img
+          src={Logo}
+          alt='로고 이미지'
+          onClick={() => navigate('/')}
+        />
       </LogoArea>
       <SearchArea>
         <SearchInput onClick={() => {}} />
@@ -42,6 +51,7 @@ const LogoArea = styled.div`
   img {
     width: 14rem;
     height: 100%;
+    cursor: pointer;
   }
 `
 const SearchArea = styled.div`
