@@ -1,39 +1,37 @@
-import { Entity, Column, PrimaryColumn } from 'typeorm'
-
+import { Entity, Column, PrimaryColumn } from 'typeorm';
 
 @Entity()
 export class Token {
-    
   @PrimaryColumn()
-  id: number
-  
+  id: number;
+
   @Column()
-  candleDateTimeUtc: string
-  
+  candleDateTimeUtc: string;
+
   @Column()
-  candleDateTimeKst: string
-  
+  candleDateTimeKst: string;
+
   @Column()
-  openingPrice: number
-  
+  openingPrice: number;
+
   @Column()
-  highPrice: number
-  
+  highPrice: number;
+
   @Column()
-  lowPrice: number
-  
+  lowPrice: number;
+
   @Column()
-  tradePrice: number
-  
+  tradePrice: number;
+
   @Column()
-  timestamp: string
-  
+  timestamp: string;
+
   @Column()
-  candleAccTradePrice: number
-  
+  candleAccTradePrice: number;
+
   @Column()
-  candleAccTradeVolume: number
-  
+  candleAccTradeVolume: number;
+
   @Column()
-  unit: number
+  unit: number;
 }

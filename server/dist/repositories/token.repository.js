@@ -11,22 +11,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CustomTokenRepository = void 0;
 exports.CustomTokenRepository = {
-    getToken(marketName, date) {
+    getTokenCandle(marketName, date) {
         return __awaiter(this, void 0, void 0, function* () {
             this.metadata.tablePath = marketName;
             try {
-                const result = yield this
-                    .createQueryBuilder()
+                const result = yield this.createQueryBuilder()
                     .select('*')
                     .from(marketName, marketName)
                     .where(`${marketName}.id = :id`, { id: 1 })
                     .getRawOne();
-                return { payload: result };
+                return result;
             }
             catch (e) {
                 return e.message;
             }
         });
-    }
+    },
 };
 //# sourceMappingURL=token.repository.js.map

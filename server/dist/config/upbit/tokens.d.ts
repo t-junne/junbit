@@ -3,3 +3,4 @@ export declare const krwTokens: {
     kr_name: string;
     en_name: string;
 }[];
+export declare const markets: string[];

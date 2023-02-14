@@ -6,8 +6,6 @@ export declare class Upbit {
             accept: string;
         };
     };
-    getAllMarkets(): any;
-    getMinutesCandles(unit: number, market: string, count?: number): any;
-    getDaysCandles(market: string, count?: number): any;
-    getTickers(markets: string): any;
+    getMinuteCandle(unit: number, market: string, count?: number): Promise<any>;
+    getTicker(markets: string): Promise<any>;
 }

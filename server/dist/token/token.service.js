@@ -8,9 +8,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -23,22 +20,26 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TokenService = void 0;
 const common_1 = require("@nestjs/common");
-const typeorm_1 = require("@nestjs/typeorm");
-const token_entity_1 = require("../entities/token.entity");
+const minuteCandle_service_1 = require("./minuteCandle/minuteCandle.service");
+const ticker_service_1 = require("./ticker/ticker.service");
+const interval_1 = require("../utils/interval");
 let TokenService = class TokenService {
-    constructor(tokenRepository) {
-        this.tokenRepository = tokenRepository;
+    constructor(minuteCandleService, tickerService) {
+        this.minuteCandleService = minuteCandleService;
+        this.tickerService = tickerService;
     }
-    getToken(marketTable, date) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return yield this.tokenRepository.getToken(marketTable, date);
-        });
+    onApplicationBootstrap() {
+        (0, interval_1.makeInterval)(() => __awaiter(this, void 0, void 0, function* () {
+            yield this.tickerService.create();
+            yield this.minuteCandleService.create(60, 25);
+            yield this.minuteCandleService.delete(60);
+        }));
     }
 };
 TokenService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, typeorm_1.InjectRepository)(token_entity_1.Token)),
-    __metadata("design:paramtypes", [Object])
+    __metadata("design:paramtypes", [minuteCandle_service_1.MinuteCandleService,
+        ticker_service_1.TickerService])
 ], TokenService);
 exports.TokenService = TokenService;
 //# sourceMappingURL=token.service.js.map

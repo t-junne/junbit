@@ -1,6 +1,9 @@
-import { TokenRepository } from 'src/repositories/token.repository';
-export declare class TokenService {
-    private readonly tokenRepository;
-    constructor(tokenRepository: TokenRepository);
-    getToken(marketTable: string, date: string): Promise<any>;
+import { OnApplicationBootstrap } from '@nestjs/common';
+import { MinuteCandleService } from './minuteCandle/minuteCandle.service';
+import { TickerService } from './ticker/ticker.service';
+export declare class TokenService implements OnApplicationBootstrap {
+    private readonly minuteCandleService;
+    private readonly tickerService;
+    constructor(minuteCandleService: MinuteCandleService, tickerService: TickerService);
+    onApplicationBootstrap(): void;
 }

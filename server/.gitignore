@@ -70,8 +70,6 @@ web_modules/
 # Output of 'npm pack'
 *.tgz
 
-node_modules
-
 # WebStorm project files
 .idea
 .idea/*.xml
@@ -87,3 +85,5 @@ rebel.xml
 .env.test.local
 .env.production.local
 .env.local
+.env.production
+.env.development

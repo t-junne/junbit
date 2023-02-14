@@ -1,16 +1,10 @@
-import { Module } from '@nestjs/common'
-import { TypeOrmModule } from '@nestjs/typeorm'
-import { Token } from 'src/entities/token.entity'
-import { TokenService } from './token.service'
-import { TokenController } from './token.controller'
-import { tokenProviders } from 'src/providers/token/token.provider'
+import { Module } from '@nestjs/common';
+import { MinuteCandleModule } from './minuteCandle/minuteCandle.module';
+import { TickerModule } from './ticker/ticker.module';
+import { TokenService } from './token.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Token])],
-  controllers: [TokenController],
-  providers: [
-    ...tokenProviders,
-    TokenService,
-  ],
+  imports: [MinuteCandleModule, TickerModule],
+  providers: [TokenService],
 })
 export class TokenModule {}

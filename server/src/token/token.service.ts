@@ -1,16 +1,20 @@
-import { Injectable } from '@nestjs/common'
-import { InjectRepository } from '@nestjs/typeorm'
-import { Token } from 'src/entities/token.entity'
-import { TokenRepository } from 'src/repositories/token.repository'
+import { Injectable, OnApplicationBootstrap } from '@nestjs/common';
+import { MinuteCandleService } from './minuteCandle/minuteCandle.service';
+import { TickerService } from './ticker/ticker.service';
+import { makeInterval } from 'src/utils/interval';
 
 @Injectable()
-export class TokenService {
+export class TokenService implements OnApplicationBootstrap {
   constructor(
-    @InjectRepository(Token) private readonly tokenRepository: TokenRepository
+    private readonly minuteCandleService: MinuteCandleService,
+    private readonly tickerService: TickerService,
   ) {}
 
-  async getToken(marketTable: string, date: string) {
-    return await this.tokenRepository.getToken(marketTable, date)
-
+  onApplicationBootstrap() {
+    makeInterval(async () => {
+      await this.tickerService.create();
+      await this.minuteCandleService.create(60, 25);
+      await this.minuteCandleService.delete(60);
+    });
   }
 }
