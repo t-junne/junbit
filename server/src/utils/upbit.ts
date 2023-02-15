@@ -22,12 +22,11 @@ export class Upbit {
         `${this.baseURL}/candles/minutes/${unit}?market=${market}&count=${count}`,
         this.options,
       );
-  
+
       return response.data;
     } catch (e: any) {
       throw Error(e);
     }
-
   }
 
   // async getDayCandle(market: string, count = 5): Promise<any> {
@@ -44,11 +43,10 @@ export class Upbit {
         `${this.baseURL}/ticker?markets=${markets}`,
         this.options,
       );
-  
+
       return response.data;
     } catch (e: any) {
       throw Error(e);
     }
-
   }
 }

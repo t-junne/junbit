@@ -16,16 +16,7 @@ let MinuteCandleController = class MinuteCandleController {
     constructor(minuteCandleService) {
         this.minuteCandleService = minuteCandleService;
     }
-    getMinutesCandles() {
-        return this.minuteCandleService.find(30, 30);
-    }
 };
-__decorate([
-    (0, common_1.Get)(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Object)
-], MinuteCandleController.prototype, "getMinutesCandles", null);
 MinuteCandleController = __decorate([
     (0, common_1.Controller)('token'),
     __metadata("design:paramtypes", [minuteCandle_service_1.MinuteCandleService])

@@ -14,17 +14,7 @@ exports.CustomTokenRepository = {
     getTokenCandle(marketName, date) {
         return __awaiter(this, void 0, void 0, function* () {
             this.metadata.tablePath = marketName;
-            try {
-                const result = yield this.createQueryBuilder()
-                    .select('*')
-                    .from(marketName, marketName)
-                    .where(`${marketName}.id = :id`, { id: 1 })
-                    .getRawOne();
-                return result;
-            }
-            catch (e) {
-                return e.message;
-            }
+            console.log(this.metadata);
         });
     },
 };

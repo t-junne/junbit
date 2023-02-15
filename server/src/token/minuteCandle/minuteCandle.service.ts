@@ -9,15 +9,19 @@ import { CreateMinuteCandleDto } from './dtos/create-minute-candle-dto';
 import { Upbit } from 'src/utils/upbit';
 import { sleep } from 'src/utils/sleep';
 import { krwTokens } from 'src/config/upbit/tokens';
+import { FindMinuteCandleDto } from './dtos/find-minute-dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Token } from 'src/entities/token.entity';
 
 interface ResponseType extends CreateMinuteCandleDto {}
 type MinutesType = 30 | 60 | 120 | 180 | 240;
+export type HoursType = 1 | 2 | 3 | 4 | 8 | 12;
 
 @Injectable()
 export class MinuteCandleService {
   constructor(
     @InjectModel(MinuteCandle.name)
-    private minuteCandleModel: Model<MinuteCandleDocument>,
+    private readonly minuteCandleModel: Model<MinuteCandleDocument>,
     private readonly upbit: Upbit,
   ) {}
 
@@ -82,28 +86,62 @@ export class MinuteCandleService {
     console.log('Done');
   }
 
-  async find(minutes: MinutesType, period: number) {
-    const array = [];
+  async find(
+    hours: HoursType,
+    baseTime: Date,
+    loop = true,
+  ): Promise<any | FindMinuteCandleDto[]> {
+    if (loop) {
+      let array: any = [];
 
-    for (let i = 1; i < krwTokens.length + 1; i++) {
-      const obj: any = {};
-      const data = await this.minuteCandleModel
-        .find({ market: krwTokens[i - 1].market })
-        .sort({ candle_date_time_utc: -1 })
-        .limit(2);
+      for (let value of krwTokens) {
+        const obj: any = {};
+        const data = await this.minuteCandleModel
+          .find(
+            { market: value.market, candle_date_time_utc: { $lte: baseTime } },
+            { _id: 0, __v: 0 },
+          )
+          .sort({ candle_date_time_utc: 1 })
+          .limit(hours * 2);
 
-      obj.tokenName = krwTokens[i - 1].kr_name;
-      obj.tradeVolumeDiff =
-        data[0].candle_acc_trade_volume - data[1].candle_acc_trade_volume;
-      obj.tradeVolumeDiffRate =
-        obj.tradeVolumeDiff / data[1].candle_acc_trade_volume;
-      obj.tradePriceDiff =
-        data[0].candle_acc_trade_price - data[1].candle_acc_trade_price;
-      obj.tradePriceDiffRate =
-        obj.tradePriceDiff / data[1].candle_acc_trade_price;
-      array.push(obj);
+        const prevVolumeSum = data
+          .slice(0, data.length / 2)
+          .reduce(
+            (accumulator, object) =>
+              accumulator + object.candle_acc_trade_volume,
+            0,
+          );
+        const volumeSum = data
+          .slice(data.length / 2)
+          .reduce(
+            (accumulator, object) =>
+              accumulator + object.candle_acc_trade_volume,
+            0,
+          );
+
+        obj.market = data[0].market;
+        obj.volumeDiff = volumeSum - prevVolumeSum;
+        obj.volumeDiffRate = obj.volumeDiff / prevVolumeSum;
+        obj.datetime = baseTime;
+
+        array.push(obj);
+      }
+
+      return array;
+    } else {
+      const datetimeLimit = new Date(
+        baseTime.getFullYear(),
+        baseTime.getMonth(),
+        baseTime.getDate(),
+        baseTime.getHours() - hours * 2,
+      );
+
+      const data = await this.minuteCandleModel.find(
+        { candle_date_time_utc: { $lte: baseTime, $gt: datetimeLimit } },
+        { _id: 0, __v: 0 },
+      );
+
+      return data;
     }
-
-    return array;
   }
 }

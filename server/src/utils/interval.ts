@@ -1,4 +1,4 @@
-export const makeInterval = (callback: Function) => {
+export const makeInterval = (baseMinute: number, callback: Function) => {
   const date = new Date();
   const hour = 60 * 60 * 1000;
   const min = date.getMinutes();
@@ -10,5 +10,5 @@ export const makeInterval = (callback: Function) => {
     setInterval(() => {
       callback();
     }, hour);
-  }, (60 * (60 - min) + (60 - sec)) * 1000);
+  }, (baseMinute * (60 - min) + (60 - sec)) * 1000);
 };

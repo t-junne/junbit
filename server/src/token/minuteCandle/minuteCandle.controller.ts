@@ -25,9 +25,4 @@ export class MinuteCandleController {
 
   //   // return result
   // }
-
-  @Get()
-  getMinutesCandles(): any {
-    return this.minuteCandleService.find(30, 30);
-  }
 }

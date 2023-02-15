@@ -50,8 +50,18 @@ let TickerService = class TickerService {
             console.log('Done');
         });
     }
+    delete() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const time = new Date('2023-02-14T07:00:00.000+00:00');
+            console.log(time);
+            const result = yield this.tickerModel
+                .find({ created_at: time });
+            console.log(result);
+        });
+    }
     find() {
-        return __awaiter(this, void 0, void 0, function* () { });
+        return __awaiter(this, void 0, void 0, function* () {
+        });
     }
 };
 TickerService = __decorate([

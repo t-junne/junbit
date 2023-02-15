@@ -10,6 +10,6 @@ import { Upbit } from 'src/utils/upbit';
   ],
   // controllers: [MinuteCandleController],
   providers: [TickerService, Upbit],
-  exports: [TickerService],
+  exports: [TickerService, MongooseModule],
 })
 export class TickerModule {}
