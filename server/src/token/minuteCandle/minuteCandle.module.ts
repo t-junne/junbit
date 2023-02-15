@@ -1,10 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-// import { TypeOrmModule } from '@nestjs/typeorm';
-// import { Token } from 'src/entities/token.entity';
 import { MinuteCandleService } from './minuteCandle.service';
 import { MinuteCandleController } from './minuteCandle.controller';
-// import { minuteCandleProviders } from 'src/providers/token/minuteCandle.provider';
 import {
   MinuteCandle,
   MinuteCandleSchema,
@@ -19,6 +16,6 @@ import { Upbit } from 'src/utils/upbit';
   ],
   controllers: [MinuteCandleController],
   providers: [MinuteCandleService, Upbit],
-  exports: [MinuteCandleService],
+  exports: [MinuteCandleService, MongooseModule],
 })
 export class MinuteCandleModule {}

@@ -3,6 +3,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { MongooseModule } from '@nestjs/mongoose';
+import { Token } from 'src/entities/token.entity';
+import { TokenTradeVolumeRank } from 'src/entities/token/tradeVolumeRank1H.entity';
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
@@ -15,8 +17,9 @@ import { MongooseModule } from '@nestjs/mongoose';
         username: configService.get('MYSQL_USERNAME'),
         password: configService.get('MYSQL_PASSWORD'),
         database: configService.get('MYSQL_DATABASE'),
-        entities: [__dirname + '/../../entities/*{.ts/.js}'],
+        entities: [Token, TokenTradeVolumeRank],
         namingStrategy: new SnakeNamingStrategy(),
+        synchronize: true,
       }),
     }),
     MongooseModule.forRootAsync({
@@ -24,7 +27,8 @@ import { MongooseModule } from '@nestjs/mongoose';
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
         uri: configService.get('MONGODB_URI'),
-        dbName: process.env.NODE_ENV === 'development' ? 'junbit-dev' : 'junbit-prod',
+        dbName:
+          process.env.NODE_ENV === 'development' ? 'junbit-dev' : 'junbit-prod',
       }),
     }),
   ],

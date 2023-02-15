@@ -20,7 +20,7 @@ TickerModule = __decorate([
             mongoose_1.MongooseModule.forFeature([{ name: ticker_schema_1.Ticker.name, schema: ticker_schema_1.TickerSchema }]),
         ],
         providers: [ticker_service_1.TickerService, upbit_1.Upbit],
-        exports: [ticker_service_1.TickerService],
+        exports: [ticker_service_1.TickerService, mongoose_1.MongooseModule],
     })
 ], TickerModule);
 exports.TickerModule = TickerModule;

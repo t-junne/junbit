@@ -6,5 +6,6 @@ export declare class TickerService {
     private readonly upbit;
     constructor(tickerModel: Model<TickerDocument>, upbit: Upbit);
     create(): Promise<void>;
+    delete(): Promise<void>;
     find(): Promise<void>;
 }

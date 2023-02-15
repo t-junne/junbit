@@ -18,47 +18,35 @@ __decorate([
     __metadata("design:type", Number)
 ], TokenTradeVolumeRank.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)('int'),
+    __metadata("design:type", Number)
+], TokenTradeVolumeRank.prototype, "diffRateRanking", void 0);
+__decorate([
+    (0, typeorm_1.Column)('int'),
+    __metadata("design:type", Number)
+], TokenTradeVolumeRank.prototype, "prevDiffRateRanking", void 0);
+__decorate([
+    (0, typeorm_1.Column)('int'),
+    __metadata("design:type", Number)
+], TokenTradeVolumeRank.prototype, "prevDayDiffRateRanking", void 0);
+__decorate([
+    (0, typeorm_1.Column)('varchar'),
     __metadata("design:type", String)
-], TokenTradeVolumeRank.prototype, "candleDateTimeUtc", void 0);
+], TokenTradeVolumeRank.prototype, "market", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
-], TokenTradeVolumeRank.prototype, "candleDateTimeKst", void 0);
-__decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)('double'),
     __metadata("design:type", Number)
-], TokenTradeVolumeRank.prototype, "openingPrice", void 0);
+], TokenTradeVolumeRank.prototype, "volumeDiff", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)('double'),
     __metadata("design:type", Number)
-], TokenTradeVolumeRank.prototype, "highPrice", void 0);
+], TokenTradeVolumeRank.prototype, "volumeDiffRate", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", Number)
-], TokenTradeVolumeRank.prototype, "lowPrice", void 0);
-__decorate([
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", Number)
-], TokenTradeVolumeRank.prototype, "tradePrice", void 0);
-__decorate([
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
-], TokenTradeVolumeRank.prototype, "timestamp", void 0);
-__decorate([
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", Number)
-], TokenTradeVolumeRank.prototype, "candleAccTradePrice", void 0);
-__decorate([
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", Number)
-], TokenTradeVolumeRank.prototype, "candleAccTradeVolume", void 0);
-__decorate([
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", Number)
-], TokenTradeVolumeRank.prototype, "unit", void 0);
+    (0, typeorm_1.Column)('datetime'),
+    __metadata("design:type", Date)
+], TokenTradeVolumeRank.prototype, "datetime", void 0);
 TokenTradeVolumeRank = __decorate([
     (0, typeorm_1.Entity)()
 ], TokenTradeVolumeRank);
 exports.TokenTradeVolumeRank = TokenTradeVolumeRank;
-//# sourceMappingURL=tokenTradeVolumeRank.entity.js.map
+//# sourceMappingURL=tradeVolumeRank1H.entity.js.map

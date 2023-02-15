@@ -42,7 +42,13 @@ export class TickerService {
     console.log('Done');
   }
 
-  async find() {
-    
+  async delete(): Promise<void> {
+    const time = new Date('2023-02-14T07:00:00.000+00:00');
+    console.log(time);
+    const result = await this.tickerModel.find({ created_at: time });
+
+    console.log(result);
   }
+
+  async find() {}
 }

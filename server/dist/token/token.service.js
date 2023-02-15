@@ -22,24 +22,26 @@ exports.TokenService = void 0;
 const common_1 = require("@nestjs/common");
 const minuteCandle_service_1 = require("./minuteCandle/minuteCandle.service");
 const ticker_service_1 = require("./ticker/ticker.service");
-const interval_1 = require("../utils/interval");
+const tradeVolumeRank1H_service_1 = require("./tradeVolumeRank/tradeVolumeRank1H.service");
 let TokenService = class TokenService {
-    constructor(minuteCandleService, tickerService) {
+    constructor(minuteCandleService, tickerService, tradeVolumeRankService) {
         this.minuteCandleService = minuteCandleService;
         this.tickerService = tickerService;
+        this.tradeVolumeRankService = tradeVolumeRankService;
     }
     onApplicationBootstrap() {
-        (0, interval_1.makeInterval)(() => __awaiter(this, void 0, void 0, function* () {
-            yield this.tickerService.create();
-            yield this.minuteCandleService.create(60, 25);
-            yield this.minuteCandleService.delete(60);
-        }));
+        return __awaiter(this, void 0, void 0, function* () {
+            const date = new Date();
+            const time = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours());
+            console.log(time);
+        });
     }
 };
 TokenService = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [minuteCandle_service_1.MinuteCandleService,
-        ticker_service_1.TickerService])
+        ticker_service_1.TickerService,
+        tradeVolumeRank1H_service_1.TradeVolumeRankService])
 ], TokenService);
 exports.TokenService = TokenService;
 //# sourceMappingURL=token.service.js.map

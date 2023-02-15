@@ -21,6 +21,8 @@ const typeorm_1 = require("@nestjs/typeorm");
 const config_1 = require("@nestjs/config");
 const typeorm_naming_strategies_1 = require("typeorm-naming-strategies");
 const mongoose_1 = require("@nestjs/mongoose");
+const token_entity_1 = require("../../entities/token.entity");
+const tradeVolumeRank1H_entity_1 = require("../../entities/token/tradeVolumeRank1H.entity");
 let DatabaseModule = class DatabaseModule {
 };
 DatabaseModule = __decorate([
@@ -37,8 +39,9 @@ DatabaseModule = __decorate([
                         username: configService.get('MYSQL_USERNAME'),
                         password: configService.get('MYSQL_PASSWORD'),
                         database: configService.get('MYSQL_DATABASE'),
-                        entities: [__dirname + '/../../entities/*{.ts/.js}'],
+                        entities: [token_entity_1.Token, tradeVolumeRank1H_entity_1.TokenTradeVolumeRank],
                         namingStrategy: new typeorm_naming_strategies_1.SnakeNamingStrategy(),
+                        synchronize: true,
                     });
                 }),
             }),

@@ -84,27 +84,32 @@ let MinuteCandleService = class MinuteCandleService {
             console.log('Done');
         });
     }
-    find(minutes, period) {
+    find(hours, baseTime, loop = true) {
         return __awaiter(this, void 0, void 0, function* () {
-            const array = [];
-            for (let i = 1; i < tokens_1.krwTokens.length + 1; i++) {
-                const obj = {};
-                const data = yield this.minuteCandleModel
-                    .find({ market: tokens_1.krwTokens[i - 1].market })
-                    .sort({ candle_date_time_utc: -1 })
-                    .limit(2);
-                obj.tokenName = tokens_1.krwTokens[i - 1].kr_name;
-                obj.tradeVolumeDiff =
-                    data[0].candle_acc_trade_volume - data[1].candle_acc_trade_volume;
-                obj.tradeVolumeDiffRate =
-                    obj.tradeVolumeDiff / data[1].candle_acc_trade_volume;
-                obj.tradePriceDiff =
-                    data[0].candle_acc_trade_price - data[1].candle_acc_trade_price;
-                obj.tradePriceDiffRate =
-                    obj.tradePriceDiff / data[1].candle_acc_trade_price;
-                array.push(obj);
+            if (loop) {
+                let array = [];
+                for (let value of tokens_1.krwTokens) {
+                    const obj = {};
+                    const data = yield this.minuteCandleModel
+                        .find({ market: value.market, candle_date_time_utc: { $lte: baseTime } }, { _id: 0, __v: 0 })
+                        .sort({ candle_date_time_utc: 1 })
+                        .limit(hours * 2);
+                    const prevVolumeSum = data.slice(0, data.length / 2).reduce((accumulator, object) => accumulator + object.candle_acc_trade_volume, 0);
+                    const volumeSum = data.slice(data.length / 2).reduce((accumulator, object) => accumulator + object.candle_acc_trade_volume, 0);
+                    obj.market = data[0].market;
+                    obj.volumeDiff = volumeSum - prevVolumeSum;
+                    obj.volumeDiffRate = obj.volumeDiff / prevVolumeSum;
+                    obj.datetime = baseTime;
+                    array.push(obj);
+                }
+                return array;
             }
-            return array;
+            else {
+                const datetimeLimit = new Date(baseTime.getFullYear(), baseTime.getMonth(), baseTime.getDate(), baseTime.getHours() - hours * 2);
+                const data = yield this.minuteCandleModel
+                    .find({ candle_date_time_utc: { $lte: baseTime, $gt: datetimeLimit } }, { _id: 0, __v: 0 });
+                return data;
+            }
         });
     }
 };
