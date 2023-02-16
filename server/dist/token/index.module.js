@@ -12,7 +12,7 @@ const typeorm_1 = require("@nestjs/typeorm");
 const minuteCandle_module_1 = require("./minuteCandle/minuteCandle.module");
 const ticker_module_1 = require("./ticker/ticker.module");
 const tradeVolumeRank1H_module_1 = require("./tradeVolumeRank/tradeVolumeRank1H.module");
-const token_service_1 = require("./token.service");
+const index_service_1 = require("./index.service");
 const tradeVolumeRank1H_service_1 = require("./tradeVolumeRank/tradeVolumeRank1H.service");
 const tradeVolumeRank1H_entity_1 = require("../entities/token/tradeVolumeRank1H.entity");
 let TokenModule = class TokenModule {
@@ -23,10 +23,10 @@ TokenModule = __decorate([
             typeorm_1.TypeOrmModule.forFeature([tradeVolumeRank1H_entity_1.TokenTradeVolumeRank]),
             minuteCandle_module_1.MinuteCandleModule,
             ticker_module_1.TickerModule,
-            tradeVolumeRank1H_module_1.TradeVolumeRankModule
+            tradeVolumeRank1H_module_1.TradeVolumeRankModule,
         ],
-        providers: [token_service_1.TokenService, tradeVolumeRank1H_service_1.TradeVolumeRankService],
+        providers: [index_service_1.TokenService, tradeVolumeRank1H_service_1.TradeVolumeRankService],
     })
 ], TokenModule);
 exports.TokenModule = TokenModule;
-//# sourceMappingURL=token.module.js.map
+//# sourceMappingURL=index.module.js.map

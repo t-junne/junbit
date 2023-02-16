@@ -1,12 +1,8 @@
-import api from "../../api"
-import { GetTickersDto } from "./tokenDto";
+import api from '../../api'
+import { GetTickersDto } from './tokenDto'
 
-const create = async () => {
-  
-}
+const create = async () => {}
 
-const upbitApi = {
-
-}
+const upbitApi = {}
 
 export default upbitApi

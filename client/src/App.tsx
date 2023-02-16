@@ -1,6 +1,6 @@
-import { Route, Routes } from "react-router-dom";
-import MainPage from "./pages/main";
-import Header from "./components/header";
+import { Route, Routes } from 'react-router-dom'
+import MainPage from './pages/main'
+import Header from './components/header'
 
 function App() {
   return (
@@ -10,8 +10,7 @@ function App() {
         <Route path="/" element={<MainPage />} />
       </Routes>
     </>
-
-  );
+  )
 }
 
-export default App;
+export default App

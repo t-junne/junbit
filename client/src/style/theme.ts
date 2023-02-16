@@ -13,5 +13,7 @@ const colors = {
   grey10: '#F5F5F5',
 } as const
 
-export type ColorType = typeof colors;
-export default { colors };
+const color = { colors }
+
+export type ColorType = typeof colors
+export default color

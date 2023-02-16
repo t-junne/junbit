@@ -1,7 +1,7 @@
-import { ColorType } from "./theme";
+import { ColorType } from './theme'
 
-declare module "styled-component" {
+declare module 'styled-component' {
   export interface defaultTheme {
-    colors: { [key in keyof ColorType]: ColorType[key] };
+    colors: { [key in keyof ColorType]: ColorType[key] }
   }
 }

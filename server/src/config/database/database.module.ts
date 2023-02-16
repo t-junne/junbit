@@ -1,10 +1,10 @@
-import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
-import { MongooseModule } from '@nestjs/mongoose';
-import { Token } from 'src/entities/token.entity';
-import { TokenTradeVolumeRank } from 'src/entities/token/tradeVolumeRank1H.entity';
+import { Module } from '@nestjs/common'
+import { TypeOrmModule } from '@nestjs/typeorm'
+import { ConfigModule, ConfigService } from '@nestjs/config'
+import { SnakeNamingStrategy } from 'typeorm-naming-strategies'
+import { MongooseModule } from '@nestjs/mongoose'
+import { Token } from 'src/entities/token.entity'
+import { TokenTradeVolumeRank } from 'src/entities/token/tradeVolumeRank1H.entity'
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({

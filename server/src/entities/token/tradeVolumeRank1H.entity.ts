@@ -1,28 +1,28 @@
-import { Entity, Column, PrimaryColumn } from 'typeorm';
+import { Entity, Column, PrimaryColumn } from 'typeorm'
 
 @Entity()
 export class TokenTradeVolumeRank {
   @PrimaryColumn()
-  id: number;
+  id: number
 
   @Column('int')
-  diffRateRanking: number;
+  diffRateRanking: number
 
   @Column('int')
-  prevDiffRateRanking: number;
+  prevDiffRateRanking: number
 
   @Column('int')
-  prevDayDiffRateRanking: number;
+  prevDayDiffRateRanking: number
 
   @Column('varchar')
-  market: string;
+  market: string
 
   @Column('double')
-  volumeDiff: number;
+  volumeDiff: number
 
   @Column('double')
-  volumeDiffRate: number;
+  volumeDiffRate: number
 
   @Column('datetime')
-  datetime: Date;
+  datetime: Date
 }

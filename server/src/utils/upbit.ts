@@ -1,8 +1,8 @@
-import axios from 'axios';
+import axios from 'axios'
 
 export class Upbit {
-  baseURL = 'https://api.upbit.com/v1';
-  options = { method: 'GET', headers: { accept: 'application/json' } };
+  baseURL = 'https://api.upbit.com/v1'
+  options = { method: 'GET', headers: { accept: 'application/json' } }
 
   // getAllMarkets(): any {
   //   const response = fetch(
@@ -21,11 +21,11 @@ export class Upbit {
       const response = await axios.get(
         `${this.baseURL}/candles/minutes/${unit}?market=${market}&count=${count}`,
         this.options,
-      );
+      )
 
-      return response.data;
+      return response.data
     } catch (e: any) {
-      throw Error(e);
+      throw Error(e)
     }
   }
 
@@ -42,11 +42,11 @@ export class Upbit {
       const response = await axios.get(
         `${this.baseURL}/ticker?markets=${markets}`,
         this.options,
-      );
+      )
 
-      return response.data;
+      return response.data
     } catch (e: any) {
-      throw Error(e);
+      throw Error(e)
     }
   }
 }

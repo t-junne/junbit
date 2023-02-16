@@ -1,20 +1,20 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
+import { HydratedDocument } from 'mongoose'
 
-export type TickerDocument = HydratedDocument<Ticker>;
+export type TickerDocument = HydratedDocument<Ticker>
 
 @Schema()
 export class Ticker {
   @Prop()
-  market: string;
+  market: string
 
   @Prop()
-  acc_trade_price_24h: number;
+  acc_trade_price_24h: number
 
   @Prop()
-  acc_trade_volume_24h: number;
+  acc_trade_volume_24h: number
 
   @Prop()
-  created_at: Date;
+  created_at: Date
 }
-export const TickerSchema = SchemaFactory.createForClass(Ticker);
+export const TickerSchema = SchemaFactory.createForClass(Ticker)

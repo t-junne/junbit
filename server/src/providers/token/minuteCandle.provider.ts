@@ -1,7 +1,7 @@
-import { DataSource } from 'typeorm';
-import { Token } from 'src/entities/token.entity';
-import { CustomTokenRepository } from 'src/repositories/token.repository';
-import { getDataSourceToken, getRepositoryToken } from '@nestjs/typeorm';
+import { DataSource } from 'typeorm'
+import { Token } from 'src/entities/token.entity'
+import { CustomTokenRepository } from 'src/repositories/token.repository'
+import { getDataSourceToken, getRepositoryToken } from '@nestjs/typeorm'
 
 export const minuteCandleProviders = [
   {
@@ -10,4 +10,4 @@ export const minuteCandleProviders = [
       dataSource.getRepository(Token).extend(CustomTokenRepository),
     inject: [getDataSourceToken()],
   },
-];
+]

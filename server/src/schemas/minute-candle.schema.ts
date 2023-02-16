@@ -1,41 +1,41 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
+import { HydratedDocument } from 'mongoose'
 
-export type MinuteCandleDocument = HydratedDocument<MinuteCandle>;
+export type MinuteCandleDocument = HydratedDocument<MinuteCandle>
 
 @Schema()
 export class MinuteCandle {
   @Prop()
-  market: string;
+  market: string
 
   @Prop()
-  candle_date_time_utc: Date;
+  candle_date_time_utc: Date
 
   @Prop()
-  candle_date_time_kst: Date;
+  candle_date_time_kst: Date
 
   @Prop()
-  opening_price: number;
+  opening_price: number
 
   @Prop()
-  high_price: number;
+  high_price: number
 
   @Prop()
-  low_price: number;
+  low_price: number
 
   @Prop()
-  trade_price: number;
+  trade_price: number
 
   @Prop()
-  timestamp: string;
+  timestamp: string
 
   @Prop()
-  candle_acc_trade_price: number;
+  candle_acc_trade_price: number
 
   @Prop()
-  candle_acc_trade_volume: number;
+  candle_acc_trade_volume: number
 
   @Prop()
-  unit: number;
+  unit: number
 }
-export const MinuteCandleSchema = SchemaFactory.createForClass(MinuteCandle);
+export const MinuteCandleSchema = SchemaFactory.createForClass(MinuteCandle)

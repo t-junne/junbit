@@ -1,9 +1,9 @@
-import { Repository } from 'typeorm';
-import { Token } from 'src/entities/token.entity';
+import { Repository } from 'typeorm'
+import { Token } from 'src/entities/token.entity'
 
 export interface TokenRepository extends Repository<Token> {
-  this: Repository<Token>;
-  getTokenCandle(marketTable: string, date: string): Promise<any>;
+  this: Repository<Token>
+  getTokenCandle(marketTable: string, date: string): Promise<any>
 }
 
 export const CustomTokenRepository: Pick<TokenRepository, any> = {
@@ -12,9 +12,9 @@ export const CustomTokenRepository: Pick<TokenRepository, any> = {
     marketName: string,
     date: string,
   ): Promise<any> {
-    this.metadata.tablePath = marketName;
+    this.metadata.tablePath = marketName
 
-    console.log(this.metadata);
+    console.log(this.metadata)
     // try {
     //   const result = await this.createQueryBuilder()
     //     .select('*')
@@ -27,4 +27,4 @@ export const CustomTokenRepository: Pick<TokenRepository, any> = {
     //   return e.message;
     // }
   },
-};
+}

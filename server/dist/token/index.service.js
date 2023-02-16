@@ -22,6 +22,7 @@ exports.TokenService = void 0;
 const common_1 = require("@nestjs/common");
 const minuteCandle_service_1 = require("./minuteCandle/minuteCandle.service");
 const ticker_service_1 = require("./ticker/ticker.service");
+const interval_1 = require("../utils/interval");
 const tradeVolumeRank1H_service_1 = require("./tradeVolumeRank/tradeVolumeRank1H.service");
 let TokenService = class TokenService {
     constructor(minuteCandleService, tickerService, tradeVolumeRankService) {
@@ -31,9 +32,14 @@ let TokenService = class TokenService {
     }
     onApplicationBootstrap() {
         return __awaiter(this, void 0, void 0, function* () {
-            const date = new Date();
-            const time = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours());
-            console.log(time);
+            (0, interval_1.makeInterval)(60, () => __awaiter(this, void 0, void 0, function* () {
+                const date = new Date();
+                const baseTime = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours());
+                yield this.tickerService.create();
+                yield this.minuteCandleService.create(60, 25);
+                yield this.tradeVolumeRankService.create(1, baseTime);
+                yield this.minuteCandleService.delete(60);
+            }));
         });
     }
 };
@@ -44,4 +50,4 @@ TokenService = __decorate([
         tradeVolumeRank1H_service_1.TradeVolumeRankService])
 ], TokenService);
 exports.TokenService = TokenService;
-//# sourceMappingURL=token.service.js.map
+//# sourceMappingURL=index.service.js.map

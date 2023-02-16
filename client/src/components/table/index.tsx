@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from 'styled-components'
 
 const MainTable = () => {
   return (
@@ -13,7 +13,6 @@ const MainTable = () => {
             <th>전일 동 시간 대비</th>
             <th>등락</th>
           </tr>
-
         </thead>
       </Table>
     </Wrapper>
@@ -22,7 +21,5 @@ const MainTable = () => {
 
 export default MainTable
 
-const Wrapper = styled.div`
-
-`
+const Wrapper = styled.div``
 const Table = styled.table``

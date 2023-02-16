@@ -1,5 +1,5 @@
-import { Controller, Get } from '@nestjs/common';
-import { MinuteCandleService } from './minuteCandle.service';
+import { Controller, Get } from '@nestjs/common'
+import { MinuteCandleService } from './minuteCandle.service'
 
 @Controller('token')
 export class MinuteCandleController {

@@ -1,6 +1,6 @@
 export class FindMinuteCandleDto {
-  market: string;
-  volumeDiff: number;
-  volumeDiffRate: number;
-  datetime: Date;
+  market: string
+  volumeDiff: number
+  volumeDiffRate: number
+  datetime: Date
 }

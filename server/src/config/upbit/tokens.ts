@@ -569,7 +569,7 @@ export const krwTokens = [
     kr_name: '시바이누',
     en_name: 'shiba_inu',
   },
-];
+]
 
 export const markets = [
   'KRW-BTC',
@@ -686,4 +686,4 @@ export const markets = [
   'KRW-GMT',
   'KRW-APT',
   'KRW-SHIB',
-];
+]

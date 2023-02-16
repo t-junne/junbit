@@ -48,12 +48,17 @@ let TradeVolumeRankService = class TradeVolumeRankService {
             this.tokenTradeVolumeRankRepsitory.metadata.tablePath = `trade_volume_rank_${hours}h`;
             try {
                 data.forEach((value) => __awaiter(this, void 0, void 0, function* () {
-                    if (id) { }
+                    if (id) {
+                    }
                     else {
                         const tradeVolumeRank = this.tokenTradeVolumeRankRepsitory.create({
-                            diffRateRanking: sortedDataByDiffRate.findIndex(item => item.market === value.market) + 1,
-                            prevDiffRateRanking: prevRank ? prevRank.diffRateRanking : undefined,
-                            prevDayDiffRateRanking: prevDayRank ? prevDayRank.diffRateRanking : undefined,
+                            diffRateRanking: sortedDataByDiffRate.findIndex((item) => item.market === value.market) + 1,
+                            prevDiffRateRanking: prevRank
+                                ? prevRank.diffRateRanking
+                                : undefined,
+                            prevDayDiffRateRanking: prevDayRank
+                                ? prevDayRank.diffRateRanking
+                                : undefined,
                             market: value.market,
                             volumeDiff: value.volumeDiff,
                             volumeDiffRate: value.volumeDiffRate,
@@ -71,13 +76,19 @@ let TradeVolumeRankService = class TradeVolumeRankService {
     findRankByDatetime(hours, datetime) {
         return __awaiter(this, void 0, void 0, function* () {
             this.tokenTradeVolumeRankRepsitory.metadata.tablePath = `trade_volume_rank_${hours}h`;
-            return yield this.tokenTradeVolumeRankRepsitory.findOne({ select: { diffRateRanking: true }, where: { datetime: datetime } });
+            return yield this.tokenTradeVolumeRankRepsitory.findOne({
+                select: { diffRateRanking: true },
+                where: { datetime: datetime },
+            });
         });
     }
     findByDatetime(hours, datetime) {
         return __awaiter(this, void 0, void 0, function* () {
             this.tokenTradeVolumeRankRepsitory.metadata.tablePath = `trade_volume_rank_${hours}h`;
-            return yield this.tokenTradeVolumeRankRepsitory.findOne({ select: { id: true }, where: { datetime: datetime } });
+            return yield this.tokenTradeVolumeRankRepsitory.findOne({
+                select: { id: true },
+                where: { datetime: datetime },
+            });
         });
     }
 };

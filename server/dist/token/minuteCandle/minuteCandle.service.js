@@ -94,8 +94,12 @@ let MinuteCandleService = class MinuteCandleService {
                         .find({ market: value.market, candle_date_time_utc: { $lte: baseTime } }, { _id: 0, __v: 0 })
                         .sort({ candle_date_time_utc: 1 })
                         .limit(hours * 2);
-                    const prevVolumeSum = data.slice(0, data.length / 2).reduce((accumulator, object) => accumulator + object.candle_acc_trade_volume, 0);
-                    const volumeSum = data.slice(data.length / 2).reduce((accumulator, object) => accumulator + object.candle_acc_trade_volume, 0);
+                    const prevVolumeSum = data
+                        .slice(0, data.length / 2)
+                        .reduce((accumulator, object) => accumulator + object.candle_acc_trade_volume, 0);
+                    const volumeSum = data
+                        .slice(data.length / 2)
+                        .reduce((accumulator, object) => accumulator + object.candle_acc_trade_volume, 0);
                     obj.market = data[0].market;
                     obj.volumeDiff = volumeSum - prevVolumeSum;
                     obj.volumeDiffRate = obj.volumeDiff / prevVolumeSum;
@@ -106,8 +110,7 @@ let MinuteCandleService = class MinuteCandleService {
             }
             else {
                 const datetimeLimit = new Date(baseTime.getFullYear(), baseTime.getMonth(), baseTime.getDate(), baseTime.getHours() - hours * 2);
-                const data = yield this.minuteCandleModel
-                    .find({ candle_date_time_utc: { $lte: baseTime, $gt: datetimeLimit } }, { _id: 0, __v: 0 });
+                const data = yield this.minuteCandleModel.find({ candle_date_time_utc: { $lte: baseTime, $gt: datetimeLimit } }, { _id: 0, __v: 0 });
                 return data;
             }
         });
