@@ -27,6 +27,7 @@ const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const tradeVolumeRank1H_entity_1 = require("../../entities/token/tradeVolumeRank1H.entity");
 const minuteCandle_service_1 = require("../minuteCandle/minuteCandle.service");
+const datetime_1 = require("../../utils/datetime");
 let TradeVolumeRankService = class TradeVolumeRankService {
     constructor(tokenTradeVolumeRankRepsitory, minuteCandleService) {
         this.tokenTradeVolumeRankRepsitory = tokenTradeVolumeRankRepsitory;
@@ -36,28 +37,26 @@ let TradeVolumeRankService = class TradeVolumeRankService {
         return __awaiter(this, void 0, void 0, function* () {
             const data = yield this.minuteCandleService.find(hours, baseTime);
             const sortedDataByDiffRate = data.sort((a, b) => b.volumeDiffRate - a.volumeDiffRate);
-            const year = baseTime.getFullYear();
-            const month = baseTime.getMonth();
-            const date = baseTime.getDate();
-            const hour = baseTime.getHours();
+            const { year, month, date, hour } = (0, datetime_1.convertDatetime)(baseTime);
             const prevTime = new Date(year, month, date, hour - hours);
             const prevDay = new Date(year, month, date - 1, hour);
-            const prevRank = yield this.findRankByDatetime(hours, prevTime);
-            const prevDayRank = yield this.findRankByDatetime(hours, prevDay);
-            const id = yield this.findByDatetime(hours, baseTime);
             this.tokenTradeVolumeRankRepsitory.metadata.tablePath = `trade_volume_rank_${hours}h`;
             try {
                 data.forEach((value) => __awaiter(this, void 0, void 0, function* () {
+                    const id = yield this.findIdByDatetime(value.market, hours, baseTime);
                     if (id) {
                     }
                     else {
+                        const prevRank = yield this.findRankByDatetime(value.market, hours, prevTime);
+                        const prevDayRank = yield this.findRankByDatetime(value.market, hours, prevDay);
+                        console.log(value.market, prevRank, prevDayRank);
                         const tradeVolumeRank = this.tokenTradeVolumeRankRepsitory.create({
-                            diffRateRanking: sortedDataByDiffRate.findIndex((item) => item.market === value.market) + 1,
-                            prevDiffRateRanking: prevRank
-                                ? prevRank.diffRateRanking
+                            diffRateRank: sortedDataByDiffRate.findIndex((item) => item.market === value.market) + 1,
+                            prevDiffRateRank: prevRank
+                                ? prevRank.diffRateRank
                                 : undefined,
-                            prevDayDiffRateRanking: prevDayRank
-                                ? prevDayRank.diffRateRanking
+                            prevDayDiffRateRank: prevDayRank
+                                ? prevDayRank.diffRateRank
                                 : undefined,
                             market: value.market,
                             volumeDiff: value.volumeDiff,
@@ -73,22 +72,36 @@ let TradeVolumeRankService = class TradeVolumeRankService {
             }
         });
     }
-    findRankByDatetime(hours, datetime) {
+    findRankByDatetime(market, hours, datetime) {
         return __awaiter(this, void 0, void 0, function* () {
             this.tokenTradeVolumeRankRepsitory.metadata.tablePath = `trade_volume_rank_${hours}h`;
             return yield this.tokenTradeVolumeRankRepsitory.findOne({
-                select: { diffRateRanking: true },
-                where: { datetime: datetime },
+                select: { diffRateRank: true },
+                where: { market: market, datetime: datetime },
             });
         });
     }
-    findByDatetime(hours, datetime) {
+    findIdByDatetime(market, hours, datetime) {
         return __awaiter(this, void 0, void 0, function* () {
             this.tokenTradeVolumeRankRepsitory.metadata.tablePath = `trade_volume_rank_${hours}h`;
             return yield this.tokenTradeVolumeRankRepsitory.findOne({
                 select: { id: true },
-                where: { datetime: datetime },
+                where: { market: market, datetime: datetime },
             });
+        });
+    }
+    findAllByDatetime(hours, datetime) {
+        return __awaiter(this, void 0, void 0, function* () {
+            this.tokenTradeVolumeRankRepsitory.metadata.tablePath = `trade_volume_rank_${hours}h`;
+            const baseTime = new Date(datetime);
+            const { year, month, date, hour } = (0, datetime_1.convertDatetime)(baseTime);
+            const newDate = new Date(year, month, date, hour);
+            const data = yield this.tokenTradeVolumeRankRepsitory.find({
+                select: { diffRateRank: true, prevDiffRateRank: true, prevDayDiffRateRank: true, market: true, volumeDiff: true, volumeDiffRate: true, datetime: true },
+                where: { datetime: newDate }
+            });
+            const sortedDataByRank = data.sort((a, b) => a.diffRateRank - b.diffRateRank);
+            return { payload: data };
         });
     }
 };

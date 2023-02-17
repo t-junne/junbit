@@ -27,6 +27,7 @@ TradeVolumeRankModule = __decorate([
             ]),
             minuteCandle_module_1.MinuteCandleModule,
         ],
+        controllers: [],
         providers: [tradeVolumeRank1H_service_1.TradeVolumeRankService, minuteCandle_service_1.MinuteCandleService, upbit_1.Upbit],
     })
 ], TradeVolumeRankModule);

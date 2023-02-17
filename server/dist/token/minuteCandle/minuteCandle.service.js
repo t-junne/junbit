@@ -29,6 +29,7 @@ const minute_candle_schema_1 = require("../../schemas/minute-candle.schema");
 const upbit_1 = require("../../utils/upbit");
 const sleep_1 = require("../../utils/sleep");
 const tokens_1 = require("../../config/upbit/tokens");
+const datetime_1 = require("../../utils/datetime");
 let MinuteCandleService = class MinuteCandleService {
     constructor(minuteCandleModel, upbit) {
         this.minuteCandleModel = minuteCandleModel;
@@ -92,12 +93,12 @@ let MinuteCandleService = class MinuteCandleService {
                     const obj = {};
                     const data = yield this.minuteCandleModel
                         .find({ market: value.market, candle_date_time_utc: { $lte: baseTime } }, { _id: 0, __v: 0 })
-                        .sort({ candle_date_time_utc: 1 })
+                        .sort({ candle_date_time_utc: -1 })
                         .limit(hours * 2);
-                    const prevVolumeSum = data
+                    const volumeSum = data
                         .slice(0, data.length / 2)
                         .reduce((accumulator, object) => accumulator + object.candle_acc_trade_volume, 0);
-                    const volumeSum = data
+                    const prevVolumeSum = data
                         .slice(data.length / 2)
                         .reduce((accumulator, object) => accumulator + object.candle_acc_trade_volume, 0);
                     obj.market = data[0].market;
@@ -109,7 +110,8 @@ let MinuteCandleService = class MinuteCandleService {
                 return array;
             }
             else {
-                const datetimeLimit = new Date(baseTime.getFullYear(), baseTime.getMonth(), baseTime.getDate(), baseTime.getHours() - hours * 2);
+                const { year, month, date, hour } = (0, datetime_1.convertDatetime)(baseTime);
+                const datetimeLimit = new Date(year, month, date, hour - hours * 2);
                 const data = yield this.minuteCandleModel.find({ candle_date_time_utc: { $lte: baseTime, $gt: datetimeLimit } }, { _id: 0, __v: 0 });
                 return data;
             }

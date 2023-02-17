@@ -1,7 +1,7 @@
-import { Controller, Get } from '@nestjs/common'
+import { Controller } from '@nestjs/common'
 import { MinuteCandleService } from './minuteCandle.service'
 
-@Controller('token')
+@Controller('minute-candle')
 export class MinuteCandleController {
   constructor(
     private readonly minuteCandleService: MinuteCandleService, // private readonly upbit: Upbit

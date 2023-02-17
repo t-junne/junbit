@@ -15,6 +15,7 @@ const tradeVolumeRank1H_module_1 = require("./tradeVolumeRank/tradeVolumeRank1H.
 const index_service_1 = require("./index.service");
 const tradeVolumeRank1H_service_1 = require("./tradeVolumeRank/tradeVolumeRank1H.service");
 const tradeVolumeRank1H_entity_1 = require("../entities/token/tradeVolumeRank1H.entity");
+const index_controller_1 = require("./index.controller");
 let TokenModule = class TokenModule {
 };
 TokenModule = __decorate([
@@ -25,6 +26,7 @@ TokenModule = __decorate([
             ticker_module_1.TickerModule,
             tradeVolumeRank1H_module_1.TradeVolumeRankModule,
         ],
+        controllers: [index_controller_1.TokenController],
         providers: [index_service_1.TokenService, tradeVolumeRank1H_service_1.TradeVolumeRankService],
     })
 ], TokenModule);

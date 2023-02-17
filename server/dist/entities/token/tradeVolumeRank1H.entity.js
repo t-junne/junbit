@@ -20,15 +20,15 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)('int'),
     __metadata("design:type", Number)
-], TokenTradeVolumeRank.prototype, "diffRateRanking", void 0);
+], TokenTradeVolumeRank.prototype, "diffRateRank", void 0);
 __decorate([
     (0, typeorm_1.Column)('int'),
     __metadata("design:type", Number)
-], TokenTradeVolumeRank.prototype, "prevDiffRateRanking", void 0);
+], TokenTradeVolumeRank.prototype, "prevDiffRateRank", void 0);
 __decorate([
     (0, typeorm_1.Column)('int'),
     __metadata("design:type", Number)
-], TokenTradeVolumeRank.prototype, "prevDayDiffRateRanking", void 0);
+], TokenTradeVolumeRank.prototype, "prevDayDiffRateRank", void 0);
 __decorate([
     (0, typeorm_1.Column)('varchar'),
     __metadata("design:type", String)

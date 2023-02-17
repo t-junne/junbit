@@ -10,7 +10,6 @@ import {
 import { TradeVolumeRankService } from './tradeVolumeRank1H.service'
 import { MinuteCandleService } from '../minuteCandle/minuteCandle.service'
 import { Upbit } from 'src/utils/upbit'
-
 @Module({
   imports: [
     TypeOrmModule.forFeature([TokenTradeVolumeRank]),
@@ -19,6 +18,7 @@ import { Upbit } from 'src/utils/upbit'
     ]),
     MinuteCandleModule,
   ],
+  controllers: [],
   providers: [TradeVolumeRankService, MinuteCandleService, Upbit],
 })
 export class TradeVolumeRankModule {}

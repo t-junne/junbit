@@ -6,13 +6,13 @@ export class TokenTradeVolumeRank {
   id: number
 
   @Column('int')
-  diffRateRanking: number
+  diffRateRank: number
 
   @Column('int')
-  prevDiffRateRanking: number
+  prevDiffRateRank: number
 
   @Column('int')
-  prevDayDiffRateRanking: number
+  prevDayDiffRateRank: number
 
   @Column('varchar')
   market: string

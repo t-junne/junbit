@@ -7,6 +7,8 @@ import {
   MinuteCandleService,
 } from '../minuteCandle/minuteCandle.service'
 import { FindMinuteCandleDto } from '../minuteCandle/dtos/find-minute-dto'
+import { convertDatetime } from 'src/utils/datetime'
+import { GetTradeVolumeRankDto } from './dtos/get-trade-volume-rank-dto'
 
 @Injectable()
 export class TradeVolumeRankService {
@@ -27,33 +29,31 @@ export class TradeVolumeRankService {
         b.volumeDiffRate - a.volumeDiffRate,
     )
 
-    const year = baseTime.getFullYear()
-    const month = baseTime.getMonth()
-    const date = baseTime.getDate()
-    const hour = baseTime.getHours()
+    const { year, month, date, hour } = convertDatetime(baseTime)
 
     const prevTime = new Date(year, month, date, hour - hours)
     const prevDay = new Date(year, month, date - 1, hour)
-    const prevRank = await this.findRankByDatetime(hours, prevTime)
-    const prevDayRank = await this.findRankByDatetime(hours, prevDay)
-    const id = await this.findByDatetime(hours, baseTime)
 
     this.tokenTradeVolumeRankRepsitory.metadata.tablePath = `trade_volume_rank_${hours}h`
-
+      
     try {
       data.forEach(async (value) => {
+        const id = await this.findIdByDatetime(value.market, hours, baseTime)
         if (id) {
         } else {
+          const prevRank = await this.findRankByDatetime(value.market, hours, prevTime)
+          const prevDayRank = await this.findRankByDatetime(value.market, hours, prevDay)
+          console.log(value.market, prevRank, prevDayRank)
           const tradeVolumeRank = this.tokenTradeVolumeRankRepsitory.create({
-            diffRateRanking:
+            diffRateRank:
               sortedDataByDiffRate.findIndex(
                 (item) => item.market === value.market,
               ) + 1,
-            prevDiffRateRanking: prevRank
-              ? prevRank.diffRateRanking
+            prevDiffRateRank: prevRank
+              ? prevRank.diffRateRank
               : undefined,
-            prevDayDiffRateRanking: prevDayRank
-              ? prevDayRank.diffRateRanking
+            prevDayDiffRateRank: prevDayRank
+              ? prevDayRank.diffRateRank
               : undefined,
             market: value.market,
             volumeDiff: value.volumeDiff,
@@ -69,21 +69,36 @@ export class TradeVolumeRankService {
     }
   }
 
-  async findRankByDatetime(hours: HoursType, datetime: Date) {
+  async findRankByDatetime(market: string, hours: HoursType, datetime: Date) {
     this.tokenTradeVolumeRankRepsitory.metadata.tablePath = `trade_volume_rank_${hours}h`
 
     return await this.tokenTradeVolumeRankRepsitory.findOne({
-      select: { diffRateRanking: true },
-      where: { datetime: datetime },
+      select: { diffRateRank: true },
+      where: { market: market, datetime: datetime },
     })
   }
 
-  async findByDatetime(hours: HoursType, datetime: Date) {
+  async findIdByDatetime(market: string, hours: HoursType, datetime: Date) {
     this.tokenTradeVolumeRankRepsitory.metadata.tablePath = `trade_volume_rank_${hours}h`
 
     return await this.tokenTradeVolumeRankRepsitory.findOne({
       select: { id: true },
-      where: { datetime: datetime },
+      where: { market: market, datetime: datetime },
     })
+  }
+
+  async findAllByDatetime(hours: HoursType, datetime: Date) {
+    this.tokenTradeVolumeRankRepsitory.metadata.tablePath = `trade_volume_rank_${hours}h`
+    const baseTime = new Date(datetime)
+    const { year, month, date, hour } = convertDatetime(baseTime)
+    const newDate = new Date(year, month, date, hour)
+
+    const data: GetTradeVolumeRankDto[] = await this.tokenTradeVolumeRankRepsitory.find({
+      select: { diffRateRank: true, prevDiffRateRank: true, prevDayDiffRateRank: true, market: true, volumeDiff: true, volumeDiffRate: true, datetime: true },
+      where: { datetime: newDate },
+      order: { diffRateRank: 'asc' },
+    })
+
+    return { payload: data }
   }
 }

@@ -1,5 +1,4 @@
-export declare class TokenTradeVolumeRank {
-    id: number;
+export declare class GetTradeVolumeRankDto {
     diffRateRank: number;
     prevDiffRateRank: number;
     prevDayDiffRateRank: number;

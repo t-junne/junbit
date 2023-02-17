@@ -12,6 +12,7 @@ import { krwTokens } from 'src/config/upbit/tokens'
 import { FindMinuteCandleDto } from './dtos/find-minute-dto'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Token } from 'src/entities/token.entity'
+import { convertDatetime } from 'src/utils/datetime'
 
 interface ResponseType extends CreateMinuteCandleDto {}
 type MinutesType = 30 | 60 | 120 | 180 | 240
@@ -101,17 +102,17 @@ export class MinuteCandleService {
             { market: value.market, candle_date_time_utc: { $lte: baseTime } },
             { _id: 0, __v: 0 },
           )
-          .sort({ candle_date_time_utc: 1 })
+          .sort({ candle_date_time_utc: -1 })
           .limit(hours * 2)
 
-        const prevVolumeSum = data
+        const volumeSum = data
           .slice(0, data.length / 2)
           .reduce(
             (accumulator, object) =>
               accumulator + object.candle_acc_trade_volume,
             0,
           )
-        const volumeSum = data
+        const prevVolumeSum = data
           .slice(data.length / 2)
           .reduce(
             (accumulator, object) =>
@@ -129,13 +130,13 @@ export class MinuteCandleService {
 
       return array
     } else {
+      const { year, month, date, hour } = convertDatetime(baseTime)
       const datetimeLimit = new Date(
-        baseTime.getFullYear(),
-        baseTime.getMonth(),
-        baseTime.getDate(),
-        baseTime.getHours() - hours * 2,
+        year,
+        month,
+        date,
+        hour - hours * 2,
       )
-
       const data = await this.minuteCandleModel.find(
         { candle_date_time_utc: { $lte: baseTime, $gt: datetimeLimit } },
         { _id: 0, __v: 0 },

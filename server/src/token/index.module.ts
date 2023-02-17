@@ -6,6 +6,7 @@ import { TradeVolumeRankModule } from './tradeVolumeRank/tradeVolumeRank1H.modul
 import { TokenService } from './index.service'
 import { TradeVolumeRankService } from './tradeVolumeRank/tradeVolumeRank1H.service'
 import { TokenTradeVolumeRank } from 'src/entities/token/tradeVolumeRank1H.entity'
+import { TokenController } from './index.controller'
 
 @Module({
   imports: [
@@ -14,6 +15,8 @@ import { TokenTradeVolumeRank } from 'src/entities/token/tradeVolumeRank1H.entit
     TickerModule,
     TradeVolumeRankModule,
   ],
+  controllers: [TokenController],
   providers: [TokenService, TradeVolumeRankService],
+
 })
 export class TokenModule {}
