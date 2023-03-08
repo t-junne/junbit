@@ -5,6 +5,10 @@ import { BrowserRouter } from 'react-router-dom'
 import GlobalStyle from './style/GlobalStyle'
 import { ThemeProvider } from 'styled-components'
 import theme from './style/theme'
+
+import { store } from './redux/store'
+import { Provider } from 'react-redux'
+
 const root = ReactDOM.createRoot(document.getElementById('App') as HTMLElement)
 
 root.render(
@@ -12,7 +16,9 @@ root.render(
     <GlobalStyle />
     <ThemeProvider theme={theme}>
       <BrowserRouter basename="/">
-        <App />
+        <Provider store={store}>
+          <App />
+        </Provider>
       </BrowserRouter>
     </ThemeProvider>
   </React.StrictMode>,

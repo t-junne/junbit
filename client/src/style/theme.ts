@@ -1,3 +1,5 @@
+import { css } from "styled-components";
+
 const colors = {
   yellow: '#F2FF59',
   tomato: '#FF6347',
@@ -13,7 +15,19 @@ const colors = {
   grey10: '#F5F5F5',
 } as const
 
-const color = { colors }
+const options = {
+  scrollBar: css`
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background-color: #E0E0E0;
+      border-radius: 12px;
+    }
+  `
+} as const
 
+const theme = { colors, options }
 export type ColorType = typeof colors
-export default color
+export type OptionType = typeof options
+export default theme

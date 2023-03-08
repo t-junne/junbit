@@ -1,6 +1,6 @@
 {
   "name": "client",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "format": "prettier --write \"src/\"",
@@ -8,14 +8,15 @@
     "build": "react-scripts build"
   },
   "dependencies": {
-    "@tanstack/react-query": "^4.24.4",
-    "axios": "^1.3.1",
+    "@reduxjs/toolkit": "^1.9.2",
     "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-calendar": "^4.0.0",
     "react-dom": "^18.2.0",
+    "react-redux": "^8.0.5",
     "react-router-dom": "^6.8.0",
     "react-scripts": "5.0.1",
+    "react-table": "^7.8.0",
     "styled-components": "^5.3.6",
     "styled-reset": "^4.4.5"
   },

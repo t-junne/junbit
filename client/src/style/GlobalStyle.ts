@@ -1,7 +1,7 @@
 import { createGlobalStyle } from 'styled-components'
 import NotoSansKRRegular from '../fonts/NotoSansKR-Regular.otf'
 import NotoSansKRBold from '../fonts/NotoSansKR-Bold.otf'
-import 'react-calendar/dist/Calendar.css';
+import 'react-calendar/dist/Calendar.css'
 import reset from 'styled-reset'
 
 const GlobalStyle = createGlobalStyle`
@@ -36,13 +36,15 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     #App { 
-        width:100vw;
-        height:calc(var(--vh, 1vh) * 100);
+        width: 100vw;
+        height: calc(var(--vh, 1vh) * 100);
     }
   }
 
   button {
     cursor: pointer;
+    background: none;
+    border: none;
   }
 
   .react-calendar {
