@@ -1,4 +1,4 @@
-import { css } from "styled-components";
+import { css } from 'styled-components'
 
 const colors = {
   yellow: '#F2FF59',
@@ -21,10 +21,10 @@ const options = {
       width: 6px;
     }
     ::-webkit-scrollbar-thumb {
-      background-color: #E0E0E0;
+      background-color: #e0e0e0;
       border-radius: 12px;
     }
-  `
+  `,
 } as const
 
 const theme = { colors, options }

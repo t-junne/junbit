@@ -4,19 +4,12 @@ import ControlPanel from '../../components/controlPanel'
 import useFetchData from './useFetchData'
 import theme from '../../style/theme'
 const MainPage = () => {
-  const {
-    option,
-    data,
-    isLoading,
-  } = useFetchData()
+  const { option, data, isLoading } = useFetchData()
   return (
     <Wrapper>
       <ControlPanel />
       <TableWrapper>
-        <MainTable
-          option={option}
-          data={data}
-        />
+        <MainTable option={option} data={data} />
       </TableWrapper>
     </Wrapper>
   )

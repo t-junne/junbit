@@ -18,11 +18,20 @@ export class TradeVolumeRankService {
     const { year, month, date, hour } = convertDatetime(baseTime)
     const newDate = new Date(year, month, date, hour)
 
-    const data: GetTradeVolumeRankDto[] = await this.tokenTradeVolumeRankRepsitory.find({
-      select: { diffRateRank: true, prevDiffRateRank: true, prevDayDiffRateRank: true, market: true, volumeDiff: true, volumeDiffRate: true, datetime: true },
-      where: { datetime: newDate },
-      order: { diffRateRank: 'asc' },
-    })
+    const data: GetTradeVolumeRankDto[] =
+      await this.tokenTradeVolumeRankRepsitory.find({
+        select: {
+          diffRateRank: true,
+          prevDiffRateRank: true,
+          prevDayDiffRateRank: true,
+          market: true,
+          volumeDiff: true,
+          volumeDiffRate: true,
+          datetime: true,
+        },
+        where: { datetime: newDate },
+        order: { diffRateRank: 'asc' },
+      })
 
     return { payload: data }
   }

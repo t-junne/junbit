@@ -6,9 +6,7 @@ import { TradeVolumeRankService } from './tradeVolumeRank1H.service'
 import { Upbit } from '@lib/utils/upbit'
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([TokenTradeVolumeRank]),
-  ],
+  imports: [TypeOrmModule.forFeature([TokenTradeVolumeRank])],
   controllers: [TradeVolumeRankController],
   providers: [TradeVolumeRankService, Upbit],
 })

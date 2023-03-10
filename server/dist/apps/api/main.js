@@ -71,9 +71,10 @@ let ApiModule = class ApiModule {
 };
 ApiModule = __decorate([
     (0, common_1.Module)({
-        imports: [config_1.ConfigModule.forRoot({
+        imports: [
+            config_1.ConfigModule.forRoot({
                 isGlobal: true,
-                envFilePath: `.env.${process.env.NODE_ENV}`
+                envFilePath: `.env.${process.env.NODE_ENV}`,
             }),
             database_module_1.DatabaseModule,
             tradeVolumeRank1H_module_1.TradeVolumeRankModule,
@@ -190,9 +191,7 @@ let TradeVolumeRankModule = class TradeVolumeRankModule {
 };
 TradeVolumeRankModule = __decorate([
     (0, common_1.Module)({
-        imports: [
-            typeorm_1.TypeOrmModule.forFeature([tradeVolumeRank1H_entity_1.TokenTradeVolumeRank]),
-        ],
+        imports: [typeorm_1.TypeOrmModule.forFeature([tradeVolumeRank1H_entity_1.TokenTradeVolumeRank])],
         controllers: [tradeVolumeRank_controller_1.TradeVolumeRankController],
         providers: [tradeVolumeRank1H_service_1.TradeVolumeRankService, upbit_1.Upbit],
     })
@@ -239,7 +238,15 @@ let TradeVolumeRankService = class TradeVolumeRankService {
         const { year, month, date, hour } = (0, datetime_1.convertDatetime)(baseTime);
         const newDate = new Date(year, month, date, hour);
         const data = await this.tokenTradeVolumeRankRepsitory.find({
-            select: { diffRateRank: true, prevDiffRateRank: true, prevDayDiffRateRank: true, market: true, volumeDiff: true, volumeDiffRate: true, datetime: true },
+            select: {
+                diffRateRank: true,
+                prevDiffRateRank: true,
+                prevDayDiffRateRank: true,
+                market: true,
+                volumeDiff: true,
+                volumeDiffRate: true,
+                datetime: true,
+            },
             where: { datetime: newDate },
             order: { diffRateRank: 'asc' },
         });

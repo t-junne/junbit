@@ -125,12 +125,7 @@ export class MinuteCandleService {
       return array
     } else {
       const { year, month, date, hour } = convertDatetime(baseTime)
-      const datetimeLimit = new Date(
-        year,
-        month,
-        date,
-        hour - hours * 2,
-      )
+      const datetimeLimit = new Date(year, month, date, hour - hours * 2)
       const data = await this.minuteCandleModel.find(
         { candle_date_time_utc: { $lte: baseTime, $gt: datetimeLimit } },
         { _id: 0, __v: 0 },

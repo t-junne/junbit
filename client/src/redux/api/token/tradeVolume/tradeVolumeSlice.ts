@@ -2,7 +2,10 @@ import { apiSlice } from '../../apiSlice'
 
 export const tradeVolumeRankSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getTradeVolumeRank: builder.query<{ payload: TradeVolumeRankDto[] }, { unit: number; datetime: string }>({
+    getTradeVolumeRank: builder.query<
+      { payload: TradeVolumeRankDto[] },
+      { unit: number; datetime: string }
+    >({
       query: ({ unit, datetime }) => ({
         url: 'token/trade-volume-rank',
         params: { unit, datetime },

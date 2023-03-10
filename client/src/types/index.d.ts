@@ -25,7 +25,7 @@ interface TradeVolumeRankDto {
 }
 
 interface TokenData {
-  [key: string] : {
+  [key: string]: {
     kr_name: string
     en_name: string
   }

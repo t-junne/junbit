@@ -6,12 +6,13 @@ import { ApiController } from './api.controller'
 import { ApiService } from './api.service'
 
 @Module({
-  imports: [ConfigModule.forRoot({
-    isGlobal: true,
-    envFilePath: `.env.${process.env.NODE_ENV}`
-  }),
-  DatabaseModule,
-  TradeVolumeRankModule,
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: `.env.${process.env.NODE_ENV}`,
+    }),
+    DatabaseModule,
+    TradeVolumeRankModule,
   ],
   controllers: [ApiController],
   providers: [ApiService],

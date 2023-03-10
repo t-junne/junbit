@@ -27,6 +27,11 @@ const minuteCandle_module_1 = __webpack_require__(11);
 const ticker_module_1 = __webpack_require__(20);
 const tradeVolumeRank1H_module_1 = __webpack_require__(23);
 const scrap_service_1 = __webpack_require__(25);
+const minuteCandle_service_1 = __webpack_require__(12);
+const tradeVolumeRank1H_service_1 = __webpack_require__(24);
+const upbit_1 = __webpack_require__(15);
+const typeorm_1 = __webpack_require__(6);
+const tradeVolumeRank1H_entity_1 = __webpack_require__(9);
 let ScrapModule = class ScrapModule {
 };
 ScrapModule = __decorate([
@@ -36,12 +41,13 @@ ScrapModule = __decorate([
                 isGlobal: true,
                 envFilePath: `.env.${process.env.NODE_ENV}`,
             }),
+            typeorm_1.TypeOrmModule.forFeature([tradeVolumeRank1H_entity_1.TokenTradeVolumeRank]),
             database_module_1.DatabaseModule,
             minuteCandle_module_1.MinuteCandleModule,
             ticker_module_1.TickerModule,
             tradeVolumeRank1H_module_1.TradeVolumeRankModule,
         ],
-        providers: [scrap_service_1.ScrapService],
+        providers: [scrap_service_1.ScrapService, minuteCandle_service_1.MinuteCandleService, tradeVolumeRank1H_service_1.TradeVolumeRankService, upbit_1.Upbit],
     })
 ], ScrapModule);
 exports.ScrapModule = ScrapModule;
@@ -1407,30 +1413,28 @@ let TradeVolumeRankService = class TradeVolumeRankService {
         const data = await this.minuteCandleService.find(hours, baseTime);
         const sortedDataByDiffRate = data.sort((a, b) => b.volumeDiffRate - a.volumeDiffRate);
         const { year, month, date, hour } = (0, datetime_1.convertDatetime)(baseTime);
-        const prevTime = new Date(year, month, date, hour - hours);
-        const prevDay = new Date(year, month, date - 1, hour);
+        const newBasetime = new Date(year, month, date, hour - 9);
+        const prevTime = new Date(year, month, date, hour - hours - 9);
+        const prevDay = new Date(year, month, date, hour - 9 - 24);
         this.tokenTradeVolumeRankRepsitory.metadata.tablePath = `trade_volume_rank_${hours}h`;
         try {
             data.forEach(async (value) => {
-                const id = await this.findIdByDatetime(value.market, hours, baseTime);
+                const id = await this.findIdByDatetime(value.market, hours, newBasetime);
                 if (id) {
                 }
                 else {
                     const prevRank = await this.findRankByDatetime(value.market, hours, prevTime);
                     const prevDayRank = await this.findRankByDatetime(value.market, hours, prevDay);
-                    console.log(value.market, prevRank, prevDayRank);
                     const tradeVolumeRank = this.tokenTradeVolumeRankRepsitory.create({
                         diffRateRank: sortedDataByDiffRate.findIndex((item) => item.market === value.market) + 1,
-                        prevDiffRateRank: prevRank
-                            ? prevRank.diffRateRank
-                            : undefined,
+                        prevDiffRateRank: prevRank ? prevRank.diffRateRank : undefined,
                         prevDayDiffRateRank: prevDayRank
                             ? prevDayRank.diffRateRank
                             : undefined,
                         market: value.market,
                         volumeDiff: value.volumeDiff,
                         volumeDiffRate: value.volumeDiffRate,
-                        datetime: baseTime,
+                        datetime: newBasetime,
                     });
                     await this.tokenTradeVolumeRankRepsitory.save(tradeVolumeRank);
                 }
@@ -1442,10 +1446,13 @@ let TradeVolumeRankService = class TradeVolumeRankService {
     }
     async findRankByDatetime(market, hours, datetime) {
         this.tokenTradeVolumeRankRepsitory.metadata.tablePath = `trade_volume_rank_${hours}h`;
-        return await this.tokenTradeVolumeRankRepsitory.findOne({
+        console.log(datetime);
+        const result = await this.tokenTradeVolumeRankRepsitory.findOne({
             select: { diffRateRank: true },
             where: { market: market, datetime: datetime },
         });
+        console.log(result);
+        return result;
     }
     async findIdByDatetime(market, hours, datetime) {
         this.tokenTradeVolumeRankRepsitory.metadata.tablePath = `trade_volume_rank_${hours}h`;
@@ -1474,16 +1481,50 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var _a, _b;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ScrapService = void 0;
 const common_1 = __webpack_require__(3);
+const minuteCandle_service_1 = __webpack_require__(12);
+const tradeVolumeRank1H_service_1 = __webpack_require__(24);
 let ScrapService = class ScrapService {
-    getHello() {
-        return 'Hello World!';
+    constructor(minuteCandleService, tradeVolumeRankService) {
+        this.minuteCandleService = minuteCandleService;
+        this.tradeVolumeRankService = tradeVolumeRankService;
+    }
+    async onApplicationBootstrap() {
+        const date = new Date();
+        const baseTime = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours());
+        console.log('Saving Trade Volume Data');
+        for (let i = 53; i < 222; i++) {
+            const date = new Date(2023, 1, 28, i + 17 + 9);
+            await this.tradeVolumeRankService.create(1, date);
+        }
+        for (let i = 53; i < 222; i++) {
+            const date = new Date(2023, 1, 28, i + 17 + 9);
+            await this.tradeVolumeRankService.create(2, date);
+        }
+        for (let i = 53; i < 222; i++) {
+            const date = new Date(2023, 1, 28, i + 17 + 9);
+            await this.tradeVolumeRankService.create(4, date);
+        }
+        for (let i = 53; i < 222; i++) {
+            const date = new Date(2023, 1, 28, i + 17 + 9);
+            await this.tradeVolumeRankService.create(8, date);
+        }
+        for (let i = 53; i < 222; i++) {
+            const date = new Date(2023, 1, 28, i + 17 + 9);
+            await this.tradeVolumeRankService.create(12, date);
+        }
+        console.log('Done');
     }
 };
 ScrapService = __decorate([
-    (0, common_1.Injectable)()
+    (0, common_1.Injectable)(),
+    __metadata("design:paramtypes", [typeof (_a = typeof minuteCandle_service_1.MinuteCandleService !== "undefined" && minuteCandle_service_1.MinuteCandleService) === "function" ? _a : Object, typeof (_b = typeof tradeVolumeRank1H_service_1.TradeVolumeRankService !== "undefined" && tradeVolumeRank1H_service_1.TradeVolumeRankService) === "function" ? _b : Object])
 ], ScrapService);
 exports.ScrapService = ScrapService;
 
