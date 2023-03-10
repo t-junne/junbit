@@ -24,7 +24,7 @@ MinuteCandleModule = __decorate([
         ],
         controllers: [minuteCandle_controller_1.MinuteCandleController],
         providers: [minuteCandle_service_1.MinuteCandleService, upbit_1.Upbit],
-        exports: [minuteCandle_service_1.MinuteCandleService, mongoose_1.MongooseModule]
+        exports: [minuteCandle_service_1.MinuteCandleService, mongoose_1.MongooseModule],
     })
 ], MinuteCandleModule);
 exports.MinuteCandleModule = MinuteCandleModule;

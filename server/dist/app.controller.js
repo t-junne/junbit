@@ -21,22 +21,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppController = void 0;
 const common_1 = require("@nestjs/common");
 const app_service_1 = require("./app.service");
-const tokens_1 = require("./config/upbit/tokens");
 let AppController = class AppController {
     constructor(appService) {
         this.appService = appService;
     }
     getAllMarkets() {
         return __awaiter(this, void 0, void 0, function* () {
-            const response = [];
-            for (let token of tokens_1.krwTokens) {
-                response.push({
-                    market: token.market,
-                    kr_name: token.kr_name,
-                    en_name: token.en_name.toLowerCase(),
-                });
-            }
-            return response;
+            return 'hi';
         });
     }
 };
@@ -47,7 +38,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AppController.prototype, "getAllMarkets", null);
 AppController = __decorate([
-    (0, common_1.Controller)('hi'),
+    (0, common_1.Controller)(),
     __metadata("design:paramtypes", [app_service_1.AppService])
 ], AppController);
 exports.AppController = AppController;

@@ -12,7 +12,7 @@ const config_1 = require("@nestjs/config");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
 const database_module_1 = require("./config/database/database.module");
-const token_module_1 = require("./token/token.module");
+const index_module_1 = require("./token/index.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -23,7 +23,7 @@ AppModule = __decorate([
                 envFilePath: `.env.${process.env.NODE_ENV}`,
             }),
             database_module_1.DatabaseModule,
-            token_module_1.TokenModule,
+            index_module_1.TokenModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

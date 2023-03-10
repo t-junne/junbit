@@ -18,7 +18,7 @@ let MinuteCandleController = class MinuteCandleController {
     }
 };
 MinuteCandleController = __decorate([
-    (0, common_1.Controller)('token'),
+    (0, common_1.Controller)('minute-candle'),
     __metadata("design:paramtypes", [minuteCandle_service_1.MinuteCandleService])
 ], MinuteCandleController);
 exports.MinuteCandleController = MinuteCandleController;

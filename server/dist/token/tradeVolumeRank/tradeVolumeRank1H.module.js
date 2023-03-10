@@ -25,8 +25,9 @@ TradeVolumeRankModule = __decorate([
             mongoose_1.MongooseModule.forFeature([
                 { name: minute_candle_schema_1.MinuteCandle.name, schema: minute_candle_schema_1.MinuteCandleSchema },
             ]),
-            minuteCandle_module_1.MinuteCandleModule
+            minuteCandle_module_1.MinuteCandleModule,
         ],
+        controllers: [],
         providers: [tradeVolumeRank1H_service_1.TradeVolumeRankService, minuteCandle_service_1.MinuteCandleService, upbit_1.Upbit],
     })
 ], TradeVolumeRankModule);

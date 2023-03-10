@@ -1,6 +1,6 @@
-import styled from "styled-components"
-import icSearchWhite from '../../assets/icons/search-white.svg';
-import theme from "../../style/theme";
+import styled from 'styled-components'
+import icSearchWhite from '../../assets/icons/search-white.svg'
+import theme from '../../style/theme'
 
 interface SearchInputProps {
   onClick: () => void
@@ -9,9 +9,9 @@ interface SearchInputProps {
 const SearchInput = (props: SearchInputProps) => {
   return (
     <Wrapper>
-      <input type='text' />
+      <input type="text" />
       <button onClick={props.onClick}>
-        <img src={icSearchWhite} alt='검색 아이콘' />
+        <img src={icSearchWhite} alt="검색 아이콘" />
       </button>
     </Wrapper>
   )
@@ -27,7 +27,7 @@ const Wrapper = styled.div`
   border-radius: 2.4rem;
   border: 0.1rem solid ${theme.colors.grey30};
   box-shadow: 0.2rem 0.1rem 0.4rem rgba(0, 0, 0, 0.1);
-  
+
   input {
     width: 85%;
     height: 100%;
@@ -41,7 +41,7 @@ const Wrapper = styled.div`
     }
 
     &:focus {
-     outline: none;
+      outline: none;
     }
   }
 
@@ -66,6 +66,4 @@ const Wrapper = styled.div`
     width: 2.2rem;
     height: 2.2rem;
   }
-
-
 `

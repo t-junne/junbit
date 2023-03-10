@@ -1,8 +1,8 @@
 export declare class TokenTradeVolumeRank {
     id: number;
-    diffRateRanking: number;
-    prevDiffRateRanking: number;
-    prevDayDiffRateRanking: number;
+    diffRateRank: number;
+    prevDiffRateRank: number;
+    prevDayDiffRateRank: number;
     market: string;
     volumeDiff: number;
     volumeDiffRate: number;
