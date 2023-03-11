@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import { apiSlice } from './api/apiSlice'
 import datetimeReducer from './datetime/datetimeSlice'
 import unitReducer from './unit/unitSlice'
-import radioOptionReducer from './option/radioOptionSlice'
+import radioOptionReducer from './radioOption/radioOptionSlice'
 
 export const store = configureStore({
   reducer: {

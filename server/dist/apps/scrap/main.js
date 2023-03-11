@@ -1445,6 +1445,17 @@ let TradeVolumeRankService = class TradeVolumeRankService {
             throw Error(e);
         }
     }
+    async delete(hours, datetime) {
+        const { year, month, date, hour } = (0, datetime_1.convertDatetime)(datetime);
+        const baseTime = new Date(year, month, date - 14, hour - 9);
+        this.tokenTradeVolumeRankRepsitory.metadata.tablePath = `trade_volume_rank_${hours}h`;
+        await this.tokenTradeVolumeRankRepsitory.createQueryBuilder()
+            .delete()
+            .from(`trade_volume_rank_${hours}h`)
+            .where('datetime < :datetime', { datetime: baseTime })
+            .execute();
+    }
+    ;
     async findRankByDatetime(market, hours, datetime) {
         this.tokenTradeVolumeRankRepsitory.metadata.tablePath = `trade_volume_rank_${hours}h`;
         return await this.tokenTradeVolumeRankRepsitory.findOne({
@@ -1497,20 +1508,23 @@ let ScrapService = class ScrapService {
         this.tradeVolumeRankService = tradeVolumeRankService;
     }
     async onApplicationBootstrap() {
-        console.log('Saving Trade Volume Data');
         (0, interval_1.makeInterval)(async () => {
             const date = new Date();
             const baseTime = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours());
             await this.tickerService.create();
-            await this.minuteCandleService.create(60, 25);
+            await this.minuteCandleService.create(60, 3);
             await this.tradeVolumeRankService.create(1, baseTime);
             await this.tradeVolumeRankService.create(2, baseTime);
             await this.tradeVolumeRankService.create(4, baseTime);
             await this.tradeVolumeRankService.create(8, baseTime);
             await this.tradeVolumeRankService.create(12, baseTime);
             await this.minuteCandleService.delete(60);
+            await this.tradeVolumeRankService.delete(1, baseTime);
+            await this.tradeVolumeRankService.delete(2, baseTime);
+            await this.tradeVolumeRankService.delete(4, baseTime);
+            await this.tradeVolumeRankService.delete(8, baseTime);
+            await this.tradeVolumeRankService.delete(12, baseTime);
         });
-        console.log('Done');
     }
 };
 ScrapService = __decorate([

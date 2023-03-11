@@ -20,7 +20,7 @@ export class ScrapService implements OnApplicationBootstrap {
         date.getDate(),
         date.getHours(),
       )
-    
+    console.log(baseTime)
       await this.tickerService.create()
       await this.minuteCandleService.create(60, 3)
       await this.tradeVolumeRankService.create(1, baseTime)
@@ -29,6 +29,11 @@ export class ScrapService implements OnApplicationBootstrap {
       await this.tradeVolumeRankService.create(8, baseTime)
       await this.tradeVolumeRankService.create(12, baseTime)
       await this.minuteCandleService.delete(60)
+      await this.tradeVolumeRankService.delete(1, baseTime)
+      await this.tradeVolumeRankService.delete(2, baseTime)
+      await this.tradeVolumeRankService.delete(4, baseTime)
+      await this.tradeVolumeRankService.delete(8, baseTime)
+      await this.tradeVolumeRankService.delete(12, baseTime)
     })
   }
 }

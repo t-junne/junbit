@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux'
 import { useGetTradeVolumeRankQuery } from '../../redux/api/token/tradeVolume/tradeVolumeSlice'
 import { currentDatetime } from '../../redux/datetime/datetimeSlice'
 import { currentUnit } from '../../redux/unit/unitSlice'
-import { currentRadioOption } from '../../redux/option/radioOptionSlice'
+import { currentRadioOption } from '../../redux/radioOption/radioOptionSlice'
 
 export default function useFetchData() {
   const datetime = useSelector(currentDatetime)

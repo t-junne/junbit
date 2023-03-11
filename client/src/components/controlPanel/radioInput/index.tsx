@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import theme from '../../../style/theme'
 import { useDispatch, useSelector } from 'react-redux'
-import { currentRadioOption, setRadioOption } from '../../../redux/option/radioOptionSlice'
+import { currentRadioOption, setRadioOption } from '../../../redux/radioOption/radioOptionSlice'
 
 export default function RadioInput() {
   const dispatch = useDispatch()

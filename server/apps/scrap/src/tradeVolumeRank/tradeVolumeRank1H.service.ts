@@ -70,6 +70,19 @@ export class TradeVolumeRankService {
     }
   }
 
+  async delete(hours: HoursType, datetime: Date) {
+    const { year, month, date, hour } = convertDatetime(datetime)
+    const baseTime = new Date(year, month, date - 14, hour - 9)
+
+    this.tokenTradeVolumeRankRepsitory.metadata.tablePath = `trade_volume_rank_${hours}h`
+
+    await this.tokenTradeVolumeRankRepsitory.createQueryBuilder()
+      .delete()
+      .from(`trade_volume_rank_${hours}h`)
+      .where('datetime < :datetime', { datetime: baseTime })
+      .execute()
+  };
+
   async findRankByDatetime(market: string, hours: HoursType, datetime: Date) {
     this.tokenTradeVolumeRankRepsitory.metadata.tablePath = `trade_volume_rank_${hours}h`
     

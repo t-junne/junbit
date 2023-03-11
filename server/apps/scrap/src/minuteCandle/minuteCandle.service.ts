@@ -66,7 +66,7 @@ export class MinuteCandleService {
         1,
       )
       const date = new Date(`${utcDate[0].candle_date_time_utc}.000Z`)
-      const newDate = new Date(date.setDate(date.getDate() - 5))
+      const newDate = new Date(date.setDate(date.getDate() - 14))
 
       await this.minuteCandleModel.deleteMany({
         market: krwTokens[i - 1].market,
