@@ -12,7 +12,7 @@ declare module '*.svg' {
   const value: any
   export = value
 }
-
+type UnitType = 1 | 2 | 4 | 8 | 12 | 24
 type RadioOptionType = 'VOLUME' | 'PRICE'
 interface TradeVolumeRankDto {
   datetime: Date

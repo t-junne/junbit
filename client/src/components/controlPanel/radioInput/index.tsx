@@ -1,15 +1,11 @@
 import styled from 'styled-components'
 import theme from '../../../style/theme'
+import { useDispatch, useSelector } from 'react-redux'
+import { currentRadioOption, setRadioOption } from '../../../redux/option/radioOptionSlice'
 
-interface RadioInputProps {
-  radioOption: RadioOptionType
-  setRadioOption: React.Dispatch<React.SetStateAction<RadioOptionType>>
-}
-
-export default function RadioInput({
-  radioOption,
-  setRadioOption,
-}: RadioInputProps) {
+export default function RadioInput() {
+  const dispatch = useDispatch()
+  const radioOption = useSelector(currentRadioOption)
   return (
     <Wrapper>
       <span className="control-panel__title">거래량 선택</span>
@@ -17,7 +13,7 @@ export default function RadioInput({
         <Label
           htmlFor="trade-volume"
           checked={radioOption === 'VOLUME'}
-          onClick={() => setRadioOption('VOLUME')}
+          onClick={() => dispatch(setRadioOption('VOLUME'))}
         >
           <input id="trade-volume" type="radio" value="VOLUME" />
           <span className="radio-selector">
@@ -28,7 +24,7 @@ export default function RadioInput({
         <Label
           htmlFor="trade-price"
           checked={radioOption === 'PRICE'}
-          onClick={() => setRadioOption('PRICE')}
+          onClick={() => dispatch(setRadioOption('PRICE'))}
         >
           <input id="trade-price" type="radio" value="PRICE" />
           <span className="radio-selector">

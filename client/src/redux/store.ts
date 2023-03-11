@@ -2,14 +2,14 @@ import { configureStore } from '@reduxjs/toolkit'
 import { apiSlice } from './api/apiSlice'
 import datetimeReducer from './datetime/datetimeSlice'
 import unitReducer from './unit/unitSlice'
-import optionReducer from './option/optionSlice'
+import radioOptionReducer from './option/radioOptionSlice'
 
 export const store = configureStore({
   reducer: {
     [apiSlice.reducerPath]: apiSlice.reducer,
     datetime: datetimeReducer,
     unit: unitReducer,
-    option: optionReducer,
+    radioOption: radioOptionReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(apiSlice.middleware),

@@ -12,8 +12,6 @@ export class ScrapService implements OnApplicationBootstrap {
     private readonly tradeVolumeRankService: TradeVolumeRankService
   ) {}
   async onApplicationBootstrap() {
-
-    console.log('Saving Trade Volume Data')
     makeInterval(async () => {
       const date = new Date()
       const baseTime = new Date(
@@ -24,7 +22,7 @@ export class ScrapService implements OnApplicationBootstrap {
       )
     
       await this.tickerService.create()
-      await this.minuteCandleService.create(60, 25)
+      await this.minuteCandleService.create(60, 3)
       await this.tradeVolumeRankService.create(1, baseTime)
       await this.tradeVolumeRankService.create(2, baseTime)
       await this.tradeVolumeRankService.create(4, baseTime)
@@ -32,7 +30,5 @@ export class ScrapService implements OnApplicationBootstrap {
       await this.tradeVolumeRankService.create(12, baseTime)
       await this.minuteCandleService.delete(60)
     })
-    console.log('Done')
-    // this.minuteCandleService.create(60, 10)
   }
 }
