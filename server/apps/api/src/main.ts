@@ -4,6 +4,6 @@ import { ApiModule } from './api.module'
 async function bootstrap() {
   const app = await NestFactory.create(ApiModule)
   app.enableCors()
-  await app.listen(5000)
+  await app.listen(process.env.API_SERVER_PORT)
 }
 bootstrap()

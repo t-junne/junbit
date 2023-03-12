@@ -3,6 +3,6 @@ import { ScrapModule } from './scrap.module'
 
 async function bootstrap() {
   const app = await NestFactory.create(ScrapModule)
-  await app.listen(5001)
+  await app.listen(process.env.SCRAP_SERVER_PORT)
 }
 bootstrap()

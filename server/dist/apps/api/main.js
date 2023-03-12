@@ -538,7 +538,7 @@ const api_module_1 = __webpack_require__(/*! ./api.module */ "./apps/api/src/api
 async function bootstrap() {
     const app = await core_1.NestFactory.create(api_module_1.ApiModule);
     app.enableCors();
-    await app.listen(5000);
+    await app.listen(process.env.API_SERVER_PORT);
 }
 bootstrap();
 

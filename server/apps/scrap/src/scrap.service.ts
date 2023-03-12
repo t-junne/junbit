@@ -48,6 +48,7 @@ export class ScrapService implements OnApplicationBootstrap {
       await this.tradeVolumeRankService.delete(4, baseTime)
       await this.tradeVolumeRankService.delete(8, baseTime)
       await this.tradeVolumeRankService.delete(12, baseTime)
+      console.log(`Done at ${baseTime}`)
     })
   }
 }
