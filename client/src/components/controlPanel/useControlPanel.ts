@@ -26,9 +26,9 @@ export default function useControlPanel() {
       date.getFullYear(),
       date.getMonth(),
       date.getDate(),
-      time.value + 9,
+      time.value,
     ).toISOString()
-    console.log(ISODatetime)
+
     dispatch(setDatetime(ISODatetime))
     dispatch(setUnitData(unit.value))
     refetch()

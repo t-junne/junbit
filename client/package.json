@@ -4,13 +4,14 @@
   "private": true,
   "scripts": {
     "format": "prettier --write \"src/\"",
-    "start": "react-scripts start",
-    "build": "react-scripts build"
+    "start": "env-cmd -f .env.development react-scripts start",
+    "build:dev": "env-cmd -f .env.development react-scripts build",
+    "build:prod": "env-cmd -f .env.production react-scripts build"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.2",
-
     "d3": "^7.8.2",
+    "env-cmd": "^10.1.0",
     "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-calendar": "^4.0.0",
