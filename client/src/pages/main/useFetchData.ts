@@ -18,8 +18,8 @@ export default function useFetchData() {
       date.getHours() - unit
     ).toISOString()
   }
-  const { data, isLoading } = useGetTradeVolumeRankQuery({ unit: unit.value, datetime })
-  const { data: prevTermData, isLoading: isPrevTermDataLoading } = useGetTradeVolumeRankQuery({ unit: unit.value, datetime: resetDatetime(datetime, unit.value) })
+  const { data, isLoading } = useGetTradeVolumeRankQuery({ unit: unit.value, datetime }, { refetchOnMountOrArgChange: false })
+  const { data: prevTermData, isLoading: isPrevTermDataLoading } = useGetTradeVolumeRankQuery({ unit: unit.value, datetime: resetDatetime(datetime, unit.value) }, { refetchOnMountOrArgChange: false })
   return {
     datetime,
     unit,

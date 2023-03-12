@@ -26,9 +26,9 @@ export class TradeVolumeRankService {
     )
 
     const { year, month, date, hour } = convertDatetime(baseTime)
-    const newBasetime = new Date(year, month, date, hour - 9)
-    const prevTime = new Date(year, month, date, hour - hours - 9)
-    const prevDay = new Date(year, month, date, hour - 9 - 24)
+    const newBasetime = new Date(year, month, date, hour)
+    const prevTime = new Date(year, month, date, hour - hours)
+    const prevDay = new Date(year, month, date, hour - 24)
 
     this.tokenTradeVolumeRankRepsitory.metadata.tablePath = `trade_volume_rank_${hours}h`
 
@@ -72,7 +72,7 @@ export class TradeVolumeRankService {
 
   async delete(hours: HoursType, datetime: Date) {
     const { year, month, date, hour } = convertDatetime(datetime)
-    const baseTime = new Date(year, month, date - 14, hour - 9)
+    const baseTime = new Date(year, month, date - 14, hour)
 
     this.tokenTradeVolumeRankRepsitory.metadata.tablePath = `trade_volume_rank_${hours}h`
 

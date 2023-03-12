@@ -273,6 +273,7 @@ let MinuteCandleService = class MinuteCandleService {
         for (let i = 1; i < tokens_1.krwTokens.length + 1; i++) {
             const start = Date.now();
             const responses = await this.upbit.getMinuteCandle(unit, tokens_1.krwTokens[i - 1].market, count);
+            console.log(tokens_1.krwTokens[i - 1].kr_name);
             for (let j = responses.length - 1; j > 0; j--) {
                 const utcDate = new Date(`${responses[j].candle_date_time_utc}.000Z`);
                 const kstDate = new Date(`${responses[j].candle_date_time_kst}.000Z`);
@@ -291,7 +292,7 @@ let MinuteCandleService = class MinuteCandleService {
             }
             const now = Date.now();
             if (i % 10 == 0 && now - start < 1000) {
-                await (0, sleep_1.sleep)(1100 - (now - start));
+                await (0, sleep_1.sleep)(1200 - (now - start));
             }
         }
         console.log('Done');
@@ -302,7 +303,7 @@ let MinuteCandleService = class MinuteCandleService {
             const start = Date.now();
             const utcDate = await this.upbit.getMinuteCandle(unit, tokens_1.krwTokens[i - 1].market, 1);
             const date = new Date(`${utcDate[0].candle_date_time_utc}.000Z`);
-            const newDate = new Date(date.setDate(date.getDate() - 5));
+            const newDate = new Date(date.setDate(date.getDate() - 14));
             await this.minuteCandleModel.deleteMany({
                 market: tokens_1.krwTokens[i - 1].market,
                 candle_date_time_utc: { $lt: newDate },
@@ -1414,9 +1415,9 @@ let TradeVolumeRankService = class TradeVolumeRankService {
         const data = await this.minuteCandleService.find(hours, baseTime);
         const sortedDataByDiffRate = data.sort((a, b) => b.volumeDiffRate - a.volumeDiffRate);
         const { year, month, date, hour } = (0, datetime_1.convertDatetime)(baseTime);
-        const newBasetime = new Date(year, month, date, hour - 9);
-        const prevTime = new Date(year, month, date, hour - hours - 9);
-        const prevDay = new Date(year, month, date, hour - 9 - 24);
+        const newBasetime = new Date(year, month, date, hour);
+        const prevTime = new Date(year, month, date, hour - hours);
+        const prevDay = new Date(year, month, date, hour - 24);
         this.tokenTradeVolumeRankRepsitory.metadata.tablePath = `trade_volume_rank_${hours}h`;
         try {
             data.forEach(async (value) => {
@@ -1447,7 +1448,7 @@ let TradeVolumeRankService = class TradeVolumeRankService {
     }
     async delete(hours, datetime) {
         const { year, month, date, hour } = (0, datetime_1.convertDatetime)(datetime);
-        const baseTime = new Date(year, month, date - 14, hour - 9);
+        const baseTime = new Date(year, month, date - 14, hour);
         this.tokenTradeVolumeRankRepsitory.metadata.tablePath = `trade_volume_rank_${hours}h`;
         await this.tokenTradeVolumeRankRepsitory.createQueryBuilder()
             .delete()
@@ -1511,8 +1512,9 @@ let ScrapService = class ScrapService {
         (0, interval_1.makeInterval)(async () => {
             const date = new Date();
             const baseTime = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours());
+            console.log(baseTime);
             await this.tickerService.create();
-            await this.minuteCandleService.create(60, 3);
+            await this.minuteCandleService.create(60, 2);
             await this.tradeVolumeRankService.create(1, baseTime);
             await this.tradeVolumeRankService.create(2, baseTime);
             await this.tradeVolumeRankService.create(4, baseTime);
@@ -1552,7 +1554,7 @@ const makeInterval = (callback) => {
         setInterval(() => {
             callback();
         }, hour);
-    }, (60 * (60 - min) + (61 - sec)) * 1000);
+    }, (60 * (60 - min) + (70 - sec)) * 1000);
 };
 exports.makeInterval = makeInterval;
 

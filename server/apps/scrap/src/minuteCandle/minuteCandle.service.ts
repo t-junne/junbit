@@ -30,6 +30,7 @@ export class MinuteCandleService {
         krwTokens[i - 1].market,
         count,
       )
+      console.log(krwTokens[i - 1].kr_name)
       for (let j = responses.length - 1; j > 0; j--) {
         const utcDate = new Date(`${responses[j].candle_date_time_utc}.000Z`)
         const kstDate = new Date(`${responses[j].candle_date_time_kst}.000Z`)
@@ -49,7 +50,7 @@ export class MinuteCandleService {
       const now = Date.now()
 
       if (i % 10 == 0 && now - start < 1000) {
-        await sleep(1100 - (now - start))
+        await sleep(1200 - (now - start))
       }
     }
     console.log('Done')

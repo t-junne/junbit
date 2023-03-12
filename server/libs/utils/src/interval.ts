@@ -10,5 +10,5 @@ export const makeInterval = (callback: Function) => {
     setInterval(() => {
       callback()
     }, hour)
-  }, (60 * (60 - min) + (61 - sec)) * 1000)
+  }, (60 * (60 - min) + (70 - sec)) * 1000)
 }
