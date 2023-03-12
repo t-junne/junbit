@@ -1,22 +1,34 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { closeUnitOption, currentUnit, isOpenUnitOption, openUnitOption, setUnitData } from '../../../redux/unit/unitSlice'
 
 export default function useUnit() {
-  const [openUnitOption, setOpenUnitOption] = useState(false)
+  const dispatch = useDispatch()
   const unitOptionRef = useRef<HTMLDivElement>(null)
-
+  const unit = useSelector(currentUnit)
+  const isOpenUnit = useSelector(isOpenUnitOption)
   const handleToggleUnitOption = () => {
-    setOpenUnitOption(!openUnitOption)
+    if (!isOpenUnit) {
+      dispatch(openUnitOption())
+      return
+    }
+
+    dispatch(closeUnitOption())
   }
 
   const handleCloseUnitOption = useCallback(
     (e: MouseEvent) => {
       const target = e.target as HTMLElement
-      if (openUnitOption && !unitOptionRef.current?.contains(target)) {
-        setOpenUnitOption(false)
+      if (isOpenUnit && !unitOptionRef.current?.contains(target)) {
+        dispatch(closeUnitOption())
       }
     },
-    [openUnitOption],
+    [isOpenUnit, dispatch],
   )
+
+  const handleSetUnit = (value: UnitType, displayText: string) => {
+    dispatch(setUnitData({ value, displayText }))
+  }
 
   useEffect(() => {
     window.addEventListener('click', (e) => {
@@ -30,8 +42,10 @@ export default function useUnit() {
   }, [handleCloseUnitOption])
 
   return {
-    openUnitOption,
+    unit,
+    isOpenUnit,
     unitOptionRef,
+    handleSetUnit,
     handleToggleUnitOption,
   }
 }

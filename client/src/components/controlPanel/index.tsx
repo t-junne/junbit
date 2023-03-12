@@ -2,7 +2,6 @@ import styled from 'styled-components'
 import theme from '../../style/theme'
 import icArrowLeft from '../../assets/icons/arrow-left.svg'
 import icArrowRight from '../../assets/icons/arrow-right.svg'
-
 import useControlPanelViewModel from './useControlPanel'
 import RadioInput from './radioInput'
 import Datetime from './datetime'
@@ -11,14 +10,6 @@ import Unit from './unit'
 const ControlPanel = () => {
   const {
     openPanel,
-    radioOption,
-    setRadioOption,
-    date,
-    setDate,
-    time,
-    setTime,
-    unit,
-    setUnit,
     handleTogglePanel,
     handleClickApplyOption,
   } = useControlPanelViewModel()
@@ -32,9 +23,9 @@ const ControlPanel = () => {
         />
       </TogglePanelButton>
       <ControllerWrapper isOpen={openPanel}>
-        <RadioInput radioOption={radioOption} setRadioOption={setRadioOption} />
-        <Datetime date={date} setDate={setDate} time={time} setTime={setTime} />
-        <Unit unit={unit} setUnit={setUnit} />
+        <RadioInput />
+        <Datetime />
+        <Unit />
         <ApplyButtonWrapper>
           <button onClick={handleClickApplyOption}>적용하기</button>
         </ApplyButtonWrapper>

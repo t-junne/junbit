@@ -22,19 +22,19 @@ export default SearchInput
 const Wrapper = styled.div`
   position: relative;
   width: 100%;
-  padding: 0.8rem;
-  height: 5rem;
-  border-radius: 2.4rem;
-  border: 0.1rem solid ${theme.colors.grey30};
-  box-shadow: 0.2rem 0.1rem 0.4rem rgba(0, 0, 0, 0.1);
+  padding: 8px;
+  height: 50px;
+  border-radius: 24px;
+  border: 1px solid ${theme.colors.grey30};
+  box-shadow: 2px 1px 4px rgba(0, 0, 0, 0.1);
 
   input {
     width: 85%;
     height: 100%;
-    padding: 0 1.2rem;
+    padding: 0 12px;
     color: ${theme.colors.grey90};
     border: none;
-    font-size: 1.8rem;
+    font-size: 18px;
 
     &:active {
       border: none;
@@ -46,8 +46,8 @@ const Wrapper = styled.div`
   }
 
   button {
-    width: 3.6rem;
-    height: 3.6rem;
+    width: 36px;
+    height: 36px;
     border: none;
     outline: none;
     border-radius: 50%;
@@ -55,15 +55,15 @@ const Wrapper = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    top: 0.6rem;
-    right: 0.6rem;
+    top: 6px;
+    right: 6px;
     background: ${theme.colors.red};
     &:active {
       background: ${theme.colors.red};
     }
   }
   img {
-    width: 2.2rem;
-    height: 2.2rem;
+    width: 22px;
+    height: 22px;
   }
 `

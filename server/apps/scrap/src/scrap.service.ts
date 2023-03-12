@@ -13,7 +13,19 @@ export class ScrapService implements OnApplicationBootstrap {
   ) {}
   async onApplicationBootstrap() {
 
-    console.log('Saving Trade Volume Data')
+    // await this.minuteCandleService.create(60, 6)
+    // console.log('start')
+    // for (let i=0; i < 2; i++) {
+    //   const baseTime = new Date(2023, 2, 12, i + 8 + 9)
+    //   console.log(baseTime)
+    //   await this.tradeVolumeRankService.create(1, baseTime)
+    //   await this.tradeVolumeRankService.create(2, baseTime)
+    //   await this.tradeVolumeRankService.create(4, baseTime)
+    //   await this .tradeVolumeRankService.create(8, baseTime)
+    //   await this.tradeVolumeRankService.create(12, baseTime)
+    // }
+    // console.log('done')
+    
     makeInterval(async () => {
       const date = new Date()
       const baseTime = new Date(
@@ -22,17 +34,20 @@ export class ScrapService implements OnApplicationBootstrap {
         date.getDate(),
         date.getHours(),
       )
-    
+    console.log(baseTime)
       await this.tickerService.create()
-      await this.minuteCandleService.create(60, 25)
+      await this.minuteCandleService.create(60, 2)
       await this.tradeVolumeRankService.create(1, baseTime)
       await this.tradeVolumeRankService.create(2, baseTime)
       await this.tradeVolumeRankService.create(4, baseTime)
       await this.tradeVolumeRankService.create(8, baseTime)
       await this.tradeVolumeRankService.create(12, baseTime)
       await this.minuteCandleService.delete(60)
+      await this.tradeVolumeRankService.delete(1, baseTime)
+      await this.tradeVolumeRankService.delete(2, baseTime)
+      await this.tradeVolumeRankService.delete(4, baseTime)
+      await this.tradeVolumeRankService.delete(8, baseTime)
+      await this.tradeVolumeRankService.delete(12, baseTime)
     })
-    console.log('Done')
-    // this.minuteCandleService.create(60, 10)
   }
 }

@@ -6,25 +6,15 @@ import icArrowRight from '../../../assets/icons/arrow-right.svg'
 import useDatetime from './useDatetime'
 import { timeOptions } from '../../../infra/controlPanel/options'
 
-type TimeType = { value: number; displayText: string }
 
-interface DatetimeProps {
-  date: Date
-  setDate: React.Dispatch<React.SetStateAction<Date>>
-  time: TimeType
-  setTime: React.Dispatch<React.SetStateAction<TimeType>>
-}
 
-export default function Datetime({
-  date,
-  setDate,
-  time,
-  setTime,
-}: DatetimeProps) {
+
+export default function Datetime() {
   const {
-    openCalendar,
-    setOpenCalendar,
-    openTimeOption,
+    isOpenCal,
+    isOpenTimeOpt,
+    dateValue,
+    time,
     wide,
     setWide,
     calendarRef,
@@ -32,9 +22,11 @@ export default function Datetime({
     timeOptionRef,
     handleOpenCalendar,
     handleClickCloseCalendar,
+    handleSetDate,
+    handleSetTime,
     handleToggleTimeOption,
   } = useDatetime()
-
+  const date = new Date(dateValue)
   return (
     <Wrapper>
       <span className="control-panel__title">날짜 및 시각</span>
@@ -49,14 +41,11 @@ export default function Datetime({
             <span>달력 열기</span>
             <img className="ic-arrow" src={icArrowRight} alt="달력 열기" />
           </OpenCalendarButton>
-          {openCalendar && (
+          {isOpenCal && (
             <CalendarWrapper ref={calendarRef}>
               <Calendar
                 calendarType="US"
-                onChange={(e: Date) => {
-                  setDate(e)
-                  setOpenCalendar(false)
-                }}
+                onChange={(e: Date) => handleSetDate(e)}
                 defaultValue={date}
                 minDetail={'month'}
                 showFixedNumberOfWeeks={false}
@@ -80,7 +69,7 @@ export default function Datetime({
           )}
         </DateWrapper>
         <TimeWrapper
-          isOpen={openTimeOption}
+          isOpen={isOpenTimeOpt}
           ref={timeOptionRef}
           onClick={handleToggleTimeOption}
         >
@@ -94,20 +83,14 @@ export default function Datetime({
               alt="더 보기"
             />
           </div>
-          {openTimeOption && (
+          {isOpenTimeOpt && (
             <ul className="control-panel__option-ul">
               {timeOptions.map((value, index) => (
                 <li
                   key={index}
                   className="control-panel__option-li"
                   onClick={() =>
-                    setTime((prev: any) => {
-                      return {
-                        ...prev,
-                        value: index,
-                        displayText: value.displayText,
-                      }
-                    })
+                    handleSetTime(index, value.displayText)
                   }
                 >
                   <span>{value.displayText}</span>

@@ -14,9 +14,6 @@ export class TradeVolumeRankService {
 
   async findAllByDatetime(datetime: Date, hours: HoursType) {
     this.tokenTradeVolumeRankRepsitory.metadata.tablePath = `trade_volume_rank_${hours}h`
-    const baseTime = new Date(datetime)
-    const { year, month, date, hour } = convertDatetime(baseTime)
-    const newDate = new Date(year, month, date, hour)
 
     const data: GetTradeVolumeRankDto[] =
       await this.tokenTradeVolumeRankRepsitory.find({
@@ -29,7 +26,7 @@ export class TradeVolumeRankService {
           volumeDiffRate: true,
           datetime: true,
         },
-        where: { datetime: newDate },
+        where: { datetime: datetime },
         order: { diffRateRank: 'asc' },
       })
 

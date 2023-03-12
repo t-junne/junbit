@@ -97,7 +97,12 @@ export const timeOptions = [
   },
 ]
 
-export const unitOptions = [
+interface UnitOptions {
+  value: UnitType
+  displayText: string
+}
+
+export const unitOptions: UnitOptions[] = [
   {
     value: 1,
     displayText: '1시간',
@@ -105,10 +110,6 @@ export const unitOptions = [
   {
     value: 2,
     displayText: '2시간',
-  },
-  {
-    value: 3,
-    displayText: '3시간',
   },
   {
     value: 4,

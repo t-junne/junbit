@@ -227,16 +227,12 @@ const common_1 = __webpack_require__(/*! @nestjs/common */ "@nestjs/common");
 const typeorm_1 = __webpack_require__(/*! @nestjs/typeorm */ "@nestjs/typeorm");
 const typeorm_2 = __webpack_require__(/*! typeorm */ "typeorm");
 const tradeVolumeRank1H_entity_1 = __webpack_require__(/*! @lib/entities/token/tradeVolumeRank1H.entity */ "./libs/entities/src/token/tradeVolumeRank1H.entity.ts");
-const datetime_1 = __webpack_require__(/*! @lib/utils/datetime */ "./libs/utils/src/datetime.ts");
 let TradeVolumeRankService = class TradeVolumeRankService {
     constructor(tokenTradeVolumeRankRepsitory) {
         this.tokenTradeVolumeRankRepsitory = tokenTradeVolumeRankRepsitory;
     }
     async findAllByDatetime(datetime, hours) {
         this.tokenTradeVolumeRankRepsitory.metadata.tablePath = `trade_volume_rank_${hours}h`;
-        const baseTime = new Date(datetime);
-        const { year, month, date, hour } = (0, datetime_1.convertDatetime)(baseTime);
-        const newDate = new Date(year, month, date, hour);
         const data = await this.tokenTradeVolumeRankRepsitory.find({
             select: {
                 diffRateRank: true,
@@ -247,7 +243,7 @@ let TradeVolumeRankService = class TradeVolumeRankService {
                 volumeDiffRate: true,
                 datetime: true,
             },
-            where: { datetime: newDate },
+            where: { datetime: datetime },
             order: { diffRateRank: 'asc' },
         });
         return { payload: data };
@@ -378,32 +374,6 @@ TokenTradeVolumeRank = __decorate([
     (0, typeorm_1.Entity)()
 ], TokenTradeVolumeRank);
 exports.TokenTradeVolumeRank = TokenTradeVolumeRank;
-
-
-/***/ }),
-
-/***/ "./libs/utils/src/datetime.ts":
-/*!************************************!*\
-  !*** ./libs/utils/src/datetime.ts ***!
-  \************************************/
-/***/ ((__unused_webpack_module, exports) => {
-
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.convertDatetime = void 0;
-const convertDatetime = (datetime) => {
-    const year = datetime.getFullYear();
-    const month = datetime.getMonth();
-    const date = datetime.getDate();
-    const hour = datetime.getHours();
-    return {
-        year,
-        month,
-        date,
-        hour,
-    };
-};
-exports.convertDatetime = convertDatetime;
 
 
 /***/ }),

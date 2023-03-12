@@ -19,6 +19,7 @@ const options = {
   scrollBar: css`
     ::-webkit-scrollbar {
       width: 6px;
+      background-color: white;
     }
     ::-webkit-scrollbar-thumb {
       background-color: #e0e0e0;

@@ -4,21 +4,15 @@ import icArrowLeft from '../../../assets/icons/arrow-left.svg'
 import useUnit from './useUnit'
 import { unitOptions } from '../../../infra/controlPanel/options'
 
-type UnitType = { value: number; displayText: string }
 
-interface UnitProps {
-  unit: UnitType
-  setUnit: React.Dispatch<React.SetStateAction<UnitType>>
-}
-
-export default function Unit({ unit, setUnit }: UnitProps) {
-  const { openUnitOption, unitOptionRef, handleToggleUnitOption } = useUnit()
+export default function Unit() {
+  const { unit, isOpenUnit, unitOptionRef, handleSetUnit, handleToggleUnitOption } = useUnit()
 
   return (
     <Wrapper>
       <span className="control-panel__title">단위시간 선택</span>
       <UnitOptionWrapper
-        isOpen={openUnitOption}
+        isOpen={isOpenUnit}
         ref={unitOptionRef}
         onClick={handleToggleUnitOption}
       >
@@ -30,20 +24,14 @@ export default function Unit({ unit, setUnit }: UnitProps) {
             alt="더 보기"
           />
         </div>
-        {openUnitOption && (
+        {isOpenUnit && (
           <ul className="control-panel__option-ul">
             {unitOptions.map((value, index) => (
               <li
                 key={index}
                 className="control-panel__option-li"
                 onClick={() =>
-                  setUnit((prev: any) => {
-                    return {
-                      ...prev,
-                      value: value.value,
-                      displayText: value.displayText,
-                    }
-                  })
+                  handleSetUnit(value.value, value.displayText)
                 }
               >
                 <span>{value.displayText}</span>
