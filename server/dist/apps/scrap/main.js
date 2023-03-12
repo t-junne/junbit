@@ -102,6 +102,7 @@ DatabaseModule = __decorate([
                     database: configService.get('MYSQL_DATABASE'),
                     entities: [tradeVolumeRank1H_entity_1.TokenTradeVolumeRank],
                     namingStrategy: new typeorm_naming_strategies_1.SnakeNamingStrategy(),
+                    timezone: 'UTC',
                     synchronize: true,
                 }),
             }),
@@ -319,22 +320,27 @@ let MinuteCandleService = class MinuteCandleService {
         if (loop) {
             let array = [];
             for (let value of tokens_1.krwTokens) {
-                const obj = {};
-                const data = await this.minuteCandleModel
-                    .find({ market: value.market, candle_date_time_utc: { $lte: baseTime } }, { _id: 0, __v: 0 })
-                    .sort({ candle_date_time_utc: -1 })
-                    .limit(hours * 2);
-                const volumeSum = data
-                    .slice(0, data.length / 2)
-                    .reduce((accumulator, object) => accumulator + object.candle_acc_trade_volume, 0);
-                const prevVolumeSum = data
-                    .slice(data.length / 2)
-                    .reduce((accumulator, object) => accumulator + object.candle_acc_trade_volume, 0);
-                obj.market = data[0].market;
-                obj.volumeDiff = volumeSum - prevVolumeSum;
-                obj.volumeDiffRate = obj.volumeDiff / prevVolumeSum;
-                obj.datetime = baseTime;
-                array.push(obj);
+                const exist = await this.minuteCandleModel
+                    .findOne({ market: value.market, candle_date_time_utc: baseTime }, { _id: 0, __v: 0 });
+                if (!exist) { }
+                else {
+                    const obj = {};
+                    const data = await this.minuteCandleModel
+                        .find({ market: value.market, candle_date_time_utc: { $lte: baseTime } }, { _id: 0, __v: 0 })
+                        .sort({ candle_date_time_utc: -1 })
+                        .limit(hours * 2);
+                    const volumeSum = data
+                        .slice(0, data.length / 2)
+                        .reduce((accumulator, object) => accumulator + object.candle_acc_trade_volume, 0);
+                    const prevVolumeSum = data
+                        .slice(data.length / 2)
+                        .reduce((accumulator, object) => accumulator + object.candle_acc_trade_volume, 0);
+                    obj.market = data[0].market;
+                    obj.volumeDiff = volumeSum - prevVolumeSum;
+                    obj.volumeDiffRate = obj.volumeDiff / prevVolumeSum;
+                    obj.datetime = data[0].candle_date_time_utc;
+                    array.push(obj);
+                }
             }
             return array;
         }
@@ -1413,6 +1419,9 @@ let TradeVolumeRankService = class TradeVolumeRankService {
     }
     async create(hours, baseTime) {
         const data = await this.minuteCandleService.find(hours, baseTime);
+        if (data.length === 0) {
+            return;
+        }
         const sortedDataByDiffRate = data.sort((a, b) => b.volumeDiffRate - a.volumeDiffRate);
         const { year, month, date, hour } = (0, datetime_1.convertDatetime)(baseTime);
         const newBasetime = new Date(year, month, date, hour);
@@ -1501,7 +1510,6 @@ const common_1 = __webpack_require__(3);
 const minuteCandle_service_1 = __webpack_require__(12);
 const tradeVolumeRank1H_service_1 = __webpack_require__(24);
 const ticker_service_1 = __webpack_require__(21);
-const interval_1 = __webpack_require__(26);
 let ScrapService = class ScrapService {
     constructor(tickerService, minuteCandleService, tradeVolumeRankService) {
         this.tickerService = tickerService;
@@ -1509,24 +1517,16 @@ let ScrapService = class ScrapService {
         this.tradeVolumeRankService = tradeVolumeRankService;
     }
     async onApplicationBootstrap() {
-        (0, interval_1.makeInterval)(async () => {
-            const date = new Date();
-            const baseTime = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours());
+        console.log('start');
+        for (let i = 0; i < 25; i++) {
+            const baseTime = new Date(2023, 2, 11, i + 13 + 9);
             console.log(baseTime);
-            await this.tickerService.create();
-            await this.minuteCandleService.create(60, 2);
-            await this.tradeVolumeRankService.create(1, baseTime);
             await this.tradeVolumeRankService.create(2, baseTime);
             await this.tradeVolumeRankService.create(4, baseTime);
             await this.tradeVolumeRankService.create(8, baseTime);
             await this.tradeVolumeRankService.create(12, baseTime);
-            await this.minuteCandleService.delete(60);
-            await this.tradeVolumeRankService.delete(1, baseTime);
-            await this.tradeVolumeRankService.delete(2, baseTime);
-            await this.tradeVolumeRankService.delete(4, baseTime);
-            await this.tradeVolumeRankService.delete(8, baseTime);
-            await this.tradeVolumeRankService.delete(12, baseTime);
-        });
+        }
+        console.log('done');
     }
 };
 ScrapService = __decorate([
@@ -1534,29 +1534,6 @@ ScrapService = __decorate([
     __metadata("design:paramtypes", [typeof (_a = typeof ticker_service_1.TickerService !== "undefined" && ticker_service_1.TickerService) === "function" ? _a : Object, typeof (_b = typeof minuteCandle_service_1.MinuteCandleService !== "undefined" && minuteCandle_service_1.MinuteCandleService) === "function" ? _b : Object, typeof (_c = typeof tradeVolumeRank1H_service_1.TradeVolumeRankService !== "undefined" && tradeVolumeRank1H_service_1.TradeVolumeRankService) === "function" ? _c : Object])
 ], ScrapService);
 exports.ScrapService = ScrapService;
-
-
-/***/ }),
-/* 26 */
-/***/ ((__unused_webpack_module, exports) => {
-
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.makeInterval = void 0;
-const makeInterval = (callback) => {
-    const date = new Date();
-    const hour = 60 * 60 * 1000;
-    const min = date.getMinutes();
-    const sec = date.getSeconds();
-    setTimeout(() => {
-        console.log('Executing...');
-        callback();
-        setInterval(() => {
-            callback();
-        }, hour);
-    }, (60 * (60 - min) + (70 - sec)) * 1000);
-};
-exports.makeInterval = makeInterval;
 
 
 /***/ })
@@ -1597,7 +1574,7 @@ const core_1 = __webpack_require__(1);
 const scrap_module_1 = __webpack_require__(2);
 async function bootstrap() {
     const app = await core_1.NestFactory.create(scrap_module_1.ScrapModule);
-    await app.listen(5001);
+    await app.listen(process.env.SCRAP_SERVER_PORT);
 }
 bootstrap();
 

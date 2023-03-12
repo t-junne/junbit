@@ -14,11 +14,13 @@ export class TradeVolumeRankService {
   ) {}
 
   async create(hours: HoursType, baseTime: Date) {
-  
+    
     const data: FindMinuteCandle[] = await this.minuteCandleService.find(
       hours,
       baseTime,
     )
+
+    if (data.length === 0) { return }
 
     const sortedDataByDiffRate = data.sort(
       (a: FindMinuteCandle, b: FindMinuteCandle) =>

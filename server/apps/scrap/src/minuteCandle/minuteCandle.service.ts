@@ -91,36 +91,45 @@ export class MinuteCandleService {
       let array: any = []
 
       for (let value of krwTokens) {
-        const obj: any = {}
-        const data = await this.minuteCandleModel
-          .find(
-            { market: value.market, candle_date_time_utc: { $lte: baseTime } },
+        const exist = await this.minuteCandleModel
+          .findOne(
+            { market: value.market, candle_date_time_utc: baseTime },
             { _id: 0, __v: 0 },
           )
-          .sort({ candle_date_time_utc: -1 })
-          .limit(hours * 2)
 
-        const volumeSum = data
-          .slice(0, data.length / 2)
-          .reduce(
-            (accumulator, object) =>
-              accumulator + object.candle_acc_trade_volume,
-            0,
-          )
-        const prevVolumeSum = data
-          .slice(data.length / 2)
-          .reduce(
-            (accumulator, object) =>
-              accumulator + object.candle_acc_trade_volume,
-            0,
-          )
+        if (!exist) {}
+        else {
+          const obj: any = {}
+          const data = await this.minuteCandleModel
+            .find(
+              { market: value.market, candle_date_time_utc: { $lte: baseTime } },
+              { _id: 0, __v: 0 },
+            )
+            .sort({ candle_date_time_utc: -1 })
+            .limit(hours * 2)
 
-        obj.market = data[0].market
-        obj.volumeDiff = volumeSum - prevVolumeSum
-        obj.volumeDiffRate = obj.volumeDiff / prevVolumeSum
-        obj.datetime = baseTime
+          const volumeSum = data
+            .slice(0, data.length / 2)
+            .reduce(
+              (accumulator, object) =>
+                accumulator + object.candle_acc_trade_volume,
+              0,
+            )
+          const prevVolumeSum = data
+            .slice(data.length / 2)
+            .reduce(
+              (accumulator, object) =>
+                accumulator + object.candle_acc_trade_volume,
+              0,
+            )
 
-        array.push(obj)
+          obj.market = data[0].market
+          obj.volumeDiff = volumeSum - prevVolumeSum
+          obj.volumeDiffRate = obj.volumeDiff / prevVolumeSum
+          obj.datetime = data[0].candle_date_time_utc
+
+          array.push(obj)
+        }
       }
 
       return array
