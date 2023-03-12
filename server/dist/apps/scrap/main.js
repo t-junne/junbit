@@ -102,7 +102,7 @@ DatabaseModule = __decorate([
                     database: configService.get('MYSQL_DATABASE'),
                     entities: [tradeVolumeRank1H_entity_1.TokenTradeVolumeRank],
                     namingStrategy: new typeorm_naming_strategies_1.SnakeNamingStrategy(),
-                    timezone: 'UTC',
+                    timezone: 'Z',
                     synchronize: true,
                 }),
             }),
@@ -1423,6 +1423,7 @@ let TradeVolumeRankService = class TradeVolumeRankService {
             return;
         }
         const sortedDataByDiffRate = data.sort((a, b) => b.volumeDiffRate - a.volumeDiffRate);
+        console.log(sortedDataByDiffRate.at(-1));
         const { year, month, date, hour } = (0, datetime_1.convertDatetime)(baseTime);
         const newBasetime = new Date(year, month, date, hour);
         const prevTime = new Date(year, month, date, hour - hours);
@@ -1518,9 +1519,10 @@ let ScrapService = class ScrapService {
     }
     async onApplicationBootstrap() {
         console.log('start');
-        for (let i = 0; i < 25; i++) {
-            const baseTime = new Date(2023, 2, 11, i + 13 + 9);
+        for (let i = 0; i < 1; i++) {
+            const baseTime = new Date(2023, 2, 12, i + 14 + 9);
             console.log(baseTime);
+            await this.tradeVolumeRankService.create(1, baseTime);
             await this.tradeVolumeRankService.create(2, baseTime);
             await this.tradeVolumeRankService.create(4, baseTime);
             await this.tradeVolumeRankService.create(8, baseTime);
