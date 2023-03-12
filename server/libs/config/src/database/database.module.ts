@@ -18,7 +18,7 @@ import { TokenTradeVolumeRank } from '../../../entities/src/token/tradeVolumeRan
         database: configService.get('MYSQL_DATABASE'),
         entities: [TokenTradeVolumeRank],
         namingStrategy: new SnakeNamingStrategy(),
-        timezone: 'UTC',
+        timezone: 'Z',
         synchronize: true,
       }),
     }),

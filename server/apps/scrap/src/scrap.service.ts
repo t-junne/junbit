@@ -13,12 +13,12 @@ export class ScrapService implements OnApplicationBootstrap {
   ) {}
   async onApplicationBootstrap() {
 
-    // await this.minuteCandleService.create(60, 25)
+    // await this.minuteCandleService.create(60, 3)
     // console.log('start')
-    // for (let i=0; i < 25; i++) {
-    //   const baseTime = new Date(2023, 2, 11, i + 13 + 9)
+    // for (let i=0; i < 1; i++) {
+    //   const baseTime = new Date(2023, 2, 12, i + 14 + 9)
     //   console.log(baseTime)
-    //   // await this.tradeVolumeRankService.create(1, baseTime)
+    //   await this.tradeVolumeRankService.create(1, baseTime)
     //   await this.tradeVolumeRankService.create(2, baseTime)
     //   await this.tradeVolumeRankService.create(4, baseTime)
     //   await this .tradeVolumeRankService.create(8, baseTime)
@@ -34,9 +34,9 @@ export class ScrapService implements OnApplicationBootstrap {
         date.getDate(),
         date.getHours(),
       )
-    console.log(baseTime)
+
       await this.tickerService.create()
-      await this.minuteCandleService.create(60, 2)
+      await this.minuteCandleService.create(60, 3)
       await this.tradeVolumeRankService.create(1, baseTime)
       await this.tradeVolumeRankService.create(2, baseTime)
       await this.tradeVolumeRankService.create(4, baseTime)
